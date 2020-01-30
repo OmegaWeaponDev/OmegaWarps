@@ -1,0 +1,24 @@
+# -------------------------------------------------------------------------------------------
+#
+#  Welcome to OmegaWarps messages file.
+#
+#  Here you'll find all of the messages that you can
+#  customize to your server needs.
+#
+#  Placeholders:
+#   %warpName% - The name of the warp.
+#   %warpOwner% -The name of the player the warp was created for.
+#
+# -------------------------------------------------------------------------------------------
+
+# Set the plugin's prefix to display before all the in-game messages.
+Prefix: "&7&l[&a&OmegaWarps&7&l]"
+
+# Set the message that players get when they create a warp
+Setwarp_Message: "&bYou have created the warp %warpName% for %warpOwner%!"
+
+# Set the message players receive when they warp somewhere.
+Warp_Message: "&cYou have warped to %warpName%"
+
+# Set the message players are sent when they try to use an OmegaWarps command without permission
+No_Permission: "&cSorry, you do not have permission to do that."

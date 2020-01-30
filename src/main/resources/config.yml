@@ -1,0 +1,19 @@
+# -------------------------------------------------------------------------------------------
+#
+#  Welcome to OmegaWarps main configuration file.
+#
+#  Here you'll find of the settings and options that you can
+#  customize to your server needs. Most features are customizable
+#  to an extent.
+#
+# -------------------------------------------------------------------------------------------
+
+
+# Set the amount of money that the owner of the warp is charged for the warp.
+Warp_Cost:
+  Enabled: true
+  Cost: 5.00
+
+# If set to true, those with the permission omegawarps.update will receive messages
+# when the plugin updates on spigot
+Update_Notify: true
