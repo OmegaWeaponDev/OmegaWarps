@@ -12,7 +12,7 @@ public class WarpCheckCommand extends Command {
   OmegaWarps plugin;
   
   public WarpCheckCommand(OmegaWarps plugin) {
-    super("warpcheck");
+    super("checkwarp");
     this.plugin = plugin;
   }
   
@@ -28,9 +28,9 @@ public class WarpCheckCommand extends Command {
         }
         
         if(args.length == 1) {
-          String warpName = args[0];
+          String warpName = args[0].toLowerCase();
           if(WarpFile.getWarpData().isSet(warpName)) {
-            String warpCreator = WarpFile.getWarpData().getString(warpName + ".Set by");
+            String warpCreator = WarpFile.getWarpData().getString(warpName + ".Set By");
             if(WarpFile.getWarpData().isSet(warpName + ".Set For")) {
               String warpOwner = WarpFile.getWarpData().getString(warpName + ".Set For");
               

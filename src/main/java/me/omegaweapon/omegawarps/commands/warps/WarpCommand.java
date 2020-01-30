@@ -31,7 +31,7 @@ public class WarpCommand extends Command {
         }
         
         if(args.length == 1) {
-          String warpName = args[0];
+          String warpName = args[0].toLowerCase();
           
           if(WarpFile.getWarpData().isSet(warpName)) {
             double warpLocationX = WarpFile.getWarpData().getDouble(warpName + ".Warp Location.X");

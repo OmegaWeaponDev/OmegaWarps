@@ -47,7 +47,7 @@ public class SetWarpCommand extends Command {
           WarpFile.getWarpData().set(warpName + ".Warp Location.Z", warpLoction.getZ());
           WarpFile.saveWarpData();
   
-          player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.SETWARP_MESSAGE));
+          player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.SETWARP_MESSAGE).replace("%warpName%", warpName).replace("%warpOwner%", "Yourself"));
         } else {
           player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.NO_PERMISSION));
         }
@@ -58,23 +58,25 @@ public class SetWarpCommand extends Command {
           String warpCreator = player.getName();
           String warpOwnerName = args[0];
           Player warpOwner = Bukkit.getServer().getPlayer(warpOwnerName);
-          String warpName = args[1];
+          String warpName = args[1].toLowerCase();
           Location warpLocation = player.getLocation();
           Double warpCost = ConfigFile.WARP_COST;
   
           if (warpOwner != null) {
             WarpFile.getWarpData().createSection(warpName);
             WarpFile.getWarpData().set(warpName + ".Set By", warpCreator);
-            WarpFile.getWarpData().set(warpName + ".Set for", warpOwnerName);
+            WarpFile.getWarpData().set(warpName + ".Set For", warpOwnerName);
             WarpFile.getWarpData().set(warpName + ".Warp Location.World", player.getWorld().getName());
             WarpFile.getWarpData().set(warpName + ".Warp Location.X", warpLocation.getX());
             WarpFile.getWarpData().set(warpName + ".Warp Location.Y", warpLocation.getY());
             WarpFile.getWarpData().set(warpName + ".Warp Location.Z", warpLocation.getZ());
             WarpFile.saveWarpData();
             
-            if(ConfigFile.WARP_COST_ENABLED.equals(true)) {
-              OmegaWarps.getEconomy().withdrawPlayer(warpOwner, warpCost);
-              warpOwner.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &bThe amount of price &c$" + warpCost + " &bhas been taken from your account for the warp."));
+            if(ConfigFile.WARP_COST_ENABLED.equals(true) && !warpOwner.hasPermission("omegawarps.cost.bypass")) {
+              if(warpOwner.hasPermission("omegawarps.cost")) {
+                OmegaWarps.getEconomy().withdrawPlayer(warpOwner, warpCost);
+                warpOwner.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &bThe amount of price &c$" + warpCost + " &bhas been taken from your account for the warp."));
+              }
             }
     
             player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.SETWARP_MESSAGE).replace("%warpName%", warpName).replace("%warpOwner%", warpOwnerName));

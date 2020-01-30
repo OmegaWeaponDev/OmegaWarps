@@ -12,7 +12,7 @@
 # -------------------------------------------------------------------------------------------
 
 # Set the plugin's prefix to display before all the in-game messages.
-Prefix: "&7&l[&a&OmegaWarps&7&l]"
+Prefix: "&7&l[&aOmegaWarps&7&l]"
 
 # Set the message that players get when they create a warp
 Setwarp_Message: "&bYou have created the warp %warpName% for %warpOwner%!"

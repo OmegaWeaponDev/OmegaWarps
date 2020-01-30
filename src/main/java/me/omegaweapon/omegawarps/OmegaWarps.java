@@ -3,9 +3,12 @@ package me.omegaweapon.omegawarps;
 import me.omegaweapon.omegawarps.commands.CommandUtil;
 import me.omegaweapon.omegawarps.commands.OmegaWarpsCommand;
 import me.omegaweapon.omegawarps.commands.warps.*;
+import me.omegaweapon.omegawarps.events.PlayerListener;
 import me.omegaweapon.omegawarps.settings.ConfigFile;
+import me.omegaweapon.omegawarps.settings.MessagesFile;
 import me.omegaweapon.omegawarps.settings.WarpFile;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,6 +30,7 @@ public class OmegaWarps extends JavaPlugin {
     }
   
     ConfigFile.init();
+    MessagesFile.init();
     WarpFile.setupWarpData();
     setupEconomy();
   
@@ -34,16 +38,22 @@ public class OmegaWarps extends JavaPlugin {
     CommandUtil.registerCommand(new SetWarpCommand(this));
     CommandUtil.registerCommand(new RemoveWarpCommand(this));
     CommandUtil.registerCommand(new WarpCommand(this));
-    CommandUtil.registerCommand(new WarpListCommand(this));
-    CommandUtil.registerCommand(new WarpCheckCommand(this));
+    //CommandUtil.registerCommand(new WarpListCommand(this));
+    //CommandUtil.registerCommand(new WarpCheckCommand(this));
   
-    new OmegaUpdater(this, 12345).getVersion(version -> {
-      if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-        logger.info("There is not a new update available.");
-      } else {
-        logger.info("There is a new update available.");
-      }
-    });
+    Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+  
+//    // Update Checker
+//    new OmegaUpdater(73535) {
+//
+//      @Override
+//      public void onUpdateAvailable() {
+//        logger.info("A new update has been released!");
+//        logger.info("Your current version is: " + getDescription().getVersion());
+//        logger.info("The latest version is: " + OmegaUpdater.getLatestVersion());
+//        logger.info("You can update here: https://www.spigotmc.org/resources/omegawarps." + OmegaUpdater.getProjectId());
+//      }
+//    }.runTaskAsynchronously(this);
   }
   
   @Override
@@ -54,6 +64,7 @@ public class OmegaWarps extends JavaPlugin {
   
   public void onReload() {
     ConfigFile.init();
+    MessagesFile.init();
     WarpFile.reloadWarpData();
   }
   

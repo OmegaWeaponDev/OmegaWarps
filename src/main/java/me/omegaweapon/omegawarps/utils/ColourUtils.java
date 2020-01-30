@@ -8,8 +8,7 @@ import java.util.List;
 public class ColourUtils {
   
   public static String Colorize(String str) {
-    ChatColor.translateAlternateColorCodes('&', str);
-    return str;
+    return ChatColor.translateAlternateColorCodes('&', str);
   }
   
   public static List<String> Colourize(List<String> strs) {
