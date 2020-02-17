@@ -63,22 +63,40 @@ public class SetWarpCommand extends Command {
           Double warpCost = ConfigFile.WARP_COST;
   
           if (warpOwner != null) {
-            WarpFile.getWarpData().createSection(warpName);
-            WarpFile.getWarpData().set(warpName + ".Set By", warpCreator);
-            WarpFile.getWarpData().set(warpName + ".Set For", warpOwnerName);
-            WarpFile.getWarpData().set(warpName + ".Warp Location.World", player.getWorld().getName());
-            WarpFile.getWarpData().set(warpName + ".Warp Location.X", warpLocation.getX());
-            WarpFile.getWarpData().set(warpName + ".Warp Location.Y", warpLocation.getY());
-            WarpFile.getWarpData().set(warpName + ".Warp Location.Z", warpLocation.getZ());
-            WarpFile.saveWarpData();
-            
+  
             if(ConfigFile.WARP_COST_ENABLED.equals(true) && !warpOwner.hasPermission("omegawarps.cost.bypass")) {
-              if(warpOwner.hasPermission("omegawarps.cost")) {
-                OmegaWarps.getEconomy().withdrawPlayer(warpOwner, warpCost);
-                warpOwner.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &bThe amount of price &c$" + warpCost + " &bhas been taken from your account for the warp."));
-              }
-            }
     
+    
+              if(warpOwner.hasPermission("omegawarps.cost")) {
+                Double warpOwnerBalance = OmegaWarps.getEconomy().getBalance(warpOwner);
+      
+                if(warpOwnerBalance < ConfigFile.WARP_COST) {
+                  player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &c" + warpOwner + " &bDoes not have the required amount to pay for the warp."));
+                } else {
+                  WarpFile.getWarpData().createSection(warpName);
+                  WarpFile.getWarpData().set(warpName + ".Set By", warpCreator);
+                  WarpFile.getWarpData().set(warpName + ".Set For", warpOwnerName);
+                  WarpFile.getWarpData().set(warpName + ".Warp Location.World", player.getWorld().getName());
+                  WarpFile.getWarpData().set(warpName + ".Warp Location.X", warpLocation.getX());
+                  WarpFile.getWarpData().set(warpName + ".Warp Location.Y", warpLocation.getY());
+                  WarpFile.getWarpData().set(warpName + ".Warp Location.Z", warpLocation.getZ());
+                  WarpFile.saveWarpData();
+                  
+                  OmegaWarps.getEconomy().withdrawPlayer(warpOwner, warpCost);
+                  warpOwner.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &bThe amount of price &c$" + warpCost + " &bhas been taken from your account for the warp."));
+                }
+              }
+            } else {
+              WarpFile.getWarpData().createSection(warpName);
+              WarpFile.getWarpData().set(warpName + ".Set By", warpCreator);
+              WarpFile.getWarpData().set(warpName + ".Set For", warpOwnerName);
+              WarpFile.getWarpData().set(warpName + ".Warp Location.World", player.getWorld().getName());
+              WarpFile.getWarpData().set(warpName + ".Warp Location.X", warpLocation.getX());
+              WarpFile.getWarpData().set(warpName + ".Warp Location.Y", warpLocation.getY());
+              WarpFile.getWarpData().set(warpName + ".Warp Location.Z", warpLocation.getZ());
+              WarpFile.saveWarpData();
+            }
+            
             player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.SETWARP_MESSAGE).replace("%warpName%", warpName).replace("%warpOwner%", warpOwnerName));
           } else {
             player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &cSorry, either that player does not exists or is offline."));

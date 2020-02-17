@@ -7,7 +7,7 @@
   <groupId>me.omegaweapon</groupId>
   <artifactId>omegawarps</artifactId>
   <name>OmegaWarps</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <description>Let your players create warps at ease, all while keeping log of all the warps made.</description>
 
   <properties>

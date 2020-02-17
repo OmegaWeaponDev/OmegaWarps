@@ -38,22 +38,22 @@ public class OmegaWarps extends JavaPlugin {
     CommandUtil.registerCommand(new SetWarpCommand(this));
     CommandUtil.registerCommand(new RemoveWarpCommand(this));
     CommandUtil.registerCommand(new WarpCommand(this));
-    //CommandUtil.registerCommand(new WarpListCommand(this));
-    //CommandUtil.registerCommand(new WarpCheckCommand(this));
+    CommandUtil.registerCommand(new WarpListCommand(this));
+    CommandUtil.registerCommand(new WarpCheckCommand(this));
   
     Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
   
-//    // Update Checker
-//    new OmegaUpdater(73535) {
-//
-//      @Override
-//      public void onUpdateAvailable() {
-//        logger.info("A new update has been released!");
-//        logger.info("Your current version is: " + getDescription().getVersion());
-//        logger.info("The latest version is: " + OmegaUpdater.getLatestVersion());
-//        logger.info("You can update here: https://www.spigotmc.org/resources/omegawarps." + OmegaUpdater.getProjectId());
-//      }
-//    }.runTaskAsynchronously(this);
+    // Update Checker
+    new OmegaUpdater(74788) {
+
+      @Override
+      public void onUpdateAvailable() {
+        logger.info("A new update has been released!");
+        logger.info("Your current version is: " + getDescription().getVersion());
+        logger.info("The latest version is: " + OmegaUpdater.getLatestVersion());
+        logger.info("You can update here: https://www.spigotmc.org/resources/omegawarps." + OmegaUpdater.getProjectId());
+      }
+    }.runTaskAsynchronously(this);
   }
   
   @Override
