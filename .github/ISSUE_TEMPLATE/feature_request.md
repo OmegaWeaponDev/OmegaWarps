@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an idea for this project
+about: Got an amazing idea for the plugin? Submit it here and it might be implemented!
 title: ''
 labels: ''
 assignees: ''
