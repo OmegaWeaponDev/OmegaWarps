@@ -6,6 +6,8 @@
 #  customize to your server needs. Most features are customizable
 #  to an extent.
 #
+#  You can find all the particle effects here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+#
 # -------------------------------------------------------------------------------------------
 
 
@@ -13,6 +15,13 @@
 Warp_Cost:
   Enabled: true
   Cost: 5.00
+
+# Set the particle effects that players get when they warp
+Warp_Particle_Effects:
+  # The particles that happen as the player is warping
+  Before_Warp: BUBBLE_POP
+  # The particles that happen after the player has warped.
+  After_Warp: PORTAL
 
 # If set to true, those with the permission omegawarps.update will receive messages
 # when the plugin updates on spigot

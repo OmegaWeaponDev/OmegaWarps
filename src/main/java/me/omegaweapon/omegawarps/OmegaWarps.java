@@ -1,14 +1,13 @@
 package me.omegaweapon.omegawarps;
 
-import me.omegaweapon.omegawarps.commands.CommandUtil;
-import me.omegaweapon.omegawarps.commands.OmegaWarpsCommand;
+import me.omegaweapon.omegawarps.commands.ReloadCommand;
 import me.omegaweapon.omegawarps.commands.warps.*;
 import me.omegaweapon.omegawarps.events.PlayerListener;
 import me.omegaweapon.omegawarps.settings.ConfigFile;
 import me.omegaweapon.omegawarps.settings.MessagesFile;
 import me.omegaweapon.omegawarps.settings.WarpFile;
+import me.omegaweapon.omegawarps.utils.Utilities;
 import net.milkbowl.vault.economy.Economy;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -34,14 +33,16 @@ public class OmegaWarps extends JavaPlugin {
     WarpFile.setupWarpData();
     setupEconomy();
   
-    CommandUtil.registerCommand(new OmegaWarpsCommand(this));
-    CommandUtil.registerCommand(new SetWarpCommand(this));
-    CommandUtil.registerCommand(new RemoveWarpCommand(this));
-    CommandUtil.registerCommand(new WarpCommand(this));
-    CommandUtil.registerCommand(new WarpListCommand(this));
-    CommandUtil.registerCommand(new WarpCheckCommand(this));
-  
-    Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+    Utilities.registerCommands(
+      new ReloadCommand(),
+      new RemoveWarpCommand(),
+      new SetWarpCommand(),
+      new WarpCheckCommand(),
+      new WarpCommand(),
+      new WarpListCommand()
+    );
+    
+    Utilities.registerEvent(new PlayerListener());
   
     // Update Checker
     new OmegaUpdater(74788) {

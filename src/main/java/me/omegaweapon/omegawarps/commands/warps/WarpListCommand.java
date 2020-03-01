@@ -1,9 +1,8 @@
 package me.omegaweapon.omegawarps.commands.warps;
 
-import me.omegaweapon.omegawarps.OmegaWarps;
 import me.omegaweapon.omegawarps.settings.MessagesFile;
 import me.omegaweapon.omegawarps.settings.WarpFile;
-import me.omegaweapon.omegawarps.utils.ColourUtils;
+import me.omegaweapon.omegawarps.utils.Utilities;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,11 +10,13 @@ import org.bukkit.entity.Player;
 import java.util.Set;
 
 public class WarpListCommand extends Command {
-  OmegaWarps plugin;
   
-  public WarpListCommand(OmegaWarps plugin) {
+  public WarpListCommand() {
     super("listwarps");
-    this.plugin = plugin;
+    
+    setPermission("omegawarps.list");
+    setPermissionMessage(Utilities.Colourize(MessagesFile.PREFIX + " " + MessagesFile.NO_PERMISSION));
+    setDescription("View a list all the warps that have been set.");
   }
   
   @Override
@@ -23,15 +24,11 @@ public class WarpListCommand extends Command {
     if(sender instanceof Player) {
       Player player = (Player) sender;
       
-      if(player.hasPermission("omegawarps.list") || player.isOp()) {
-        Set<String> warpNames = WarpFile.getWarpData().getKeys(false);
-        player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &bThe current warps are:"));
-        
-        for(String warpName : warpNames) {
-          player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + warpName));
-        }
-      } else {
-        player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.NO_PERMISSION));
+      Set<String> warpNames = WarpFile.getWarpData().getKeys(false);
+      player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + " &bThe current warps are:"));
+      
+      for(String warpName : warpNames) {
+        player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + " " + warpName));
       }
     }
     return true;

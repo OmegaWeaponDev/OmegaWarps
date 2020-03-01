@@ -1,19 +1,20 @@
 package me.omegaweapon.omegawarps.commands.warps;
 
-import me.omegaweapon.omegawarps.OmegaWarps;
 import me.omegaweapon.omegawarps.settings.MessagesFile;
 import me.omegaweapon.omegawarps.settings.WarpFile;
-import me.omegaweapon.omegawarps.utils.ColourUtils;
+import me.omegaweapon.omegawarps.utils.Utilities;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class RemoveWarpCommand extends Command {
-  OmegaWarps plugin;
   
-  public RemoveWarpCommand(OmegaWarps plugin) {
+  public RemoveWarpCommand() {
     super("delwarp");
-    this.plugin = plugin;
+    
+    setPermission("omegawarps.remove");
+    setPermissionMessage(Utilities.Colourize(MessagesFile.PREFIX + " " + MessagesFile.NO_PERMISSION));
+    setDescription("Remove warps that players have set.");
   }
   
   @Override
@@ -22,28 +23,20 @@ public class RemoveWarpCommand extends Command {
       Player player = (Player) sender;
       
       if(args.length == 0) {
-        if(player.hasPermission("omegawarps.remove")) {
-          player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &b/delwarp <warp name> - Removes a specific warp a player has set."));
-        } else {
-          player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.NO_PERMISSION));
-        }
+        player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + " &b/delwarp <warp name> - Removes a specific warp a player has set."));
       }
       
       if(args.length == 1) {
-        if(player.hasPermission("omegawarps.remove") || player.isOp()) {
-          String warpName = args[0];
-          Object deletedWarp = WarpFile.getWarpData().get(warpName);
-          
-          if(deletedWarp == null) {
-            player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &cSorry, that warp does not exist."));
-          } else {
-            WarpFile.getWarpData().set(warpName, null);
-            WarpFile.saveWarpData();
-            
-            player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " &bYou have successfully deleted the warp " + warpName));
-          }
+        String warpName = args[0];
+        Object deletedWarp = WarpFile.getWarpData().get(warpName);
+        
+        if(deletedWarp == null) {
+          player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + " &cSorry, that warp does not exist."));
         } else {
-          player.sendMessage(ColourUtils.Colorize(MessagesFile.PREFIX + " " + MessagesFile.NO_PERMISSION));
+          WarpFile.getWarpData().set(warpName, null);
+          WarpFile.saveWarpData();
+          
+          player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + " &bYou have successfully deleted the warp " + warpName));
         }
       }
     }
