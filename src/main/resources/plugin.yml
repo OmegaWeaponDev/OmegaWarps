@@ -3,4 +3,17 @@ version: ${project.version}
 api-version: 1.15
 description: ${project.description}
 main: ${main.class}
-author: OmegaWeapon_
+
+author: ${pl.author}
+authors: ${pl.authors}
+
+softdepend:
+  - Vault
+
+Commands:
+  - omegawarps
+  - delwarp
+  - setwarp
+  - warp
+  - checkwarp
+  - listwarps

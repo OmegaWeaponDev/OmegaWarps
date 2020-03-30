@@ -1,60 +1,74 @@
 package me.omegaweapon.omegawarps;
 
-import me.omegaweapon.omegawarps.commands.ReloadCommand;
+import me.omegaweapon.omegawarps.commands.MainCommand;
 import me.omegaweapon.omegawarps.commands.warps.*;
 import me.omegaweapon.omegawarps.events.PlayerListener;
-import me.omegaweapon.omegawarps.settings.ConfigFile;
-import me.omegaweapon.omegawarps.settings.MessagesFile;
-import me.omegaweapon.omegawarps.settings.WarpFile;
-import me.omegaweapon.omegawarps.utils.Utilities;
+import me.ou.library.Utilities;
+import me.ou.library.configs.ConfigCreator;
 import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.logging.Logger;
 
 public class OmegaWarps extends JavaPlugin {
   public static OmegaWarps instance;
   private static Economy econ = null;
+
+  private static final ConfigCreator configFile = new ConfigCreator("config.yml");
+  private static final ConfigCreator messagesFile = new ConfigCreator("messages.yml");
+  private static final ConfigCreator warpsFile = new ConfigCreator("warps.yml");
   
   @Override
   public void onEnable() {
     instance = this;
-    
-    Logger logger = this.getLogger();
-    logger.info("OmegaWarps has successfully been enabled!");
-    
-    if(!getDataFolder().exists()) {
-      getDataFolder().mkdir();
-    }
-  
-    ConfigFile.init();
-    MessagesFile.init();
-    WarpFile.setupWarpData();
-    setupEconomy();
-  
-    Utilities.registerCommands(
-      new ReloadCommand(),
-      new RemoveWarpCommand(),
-      new SetWarpCommand(),
-      new WarpCheckCommand(),
-      new WarpCommand(),
-      new WarpListCommand()
-    );
-    
-    Utilities.registerEvent(new PlayerListener());
-  
-    // Update Checker
-    new OmegaUpdater(74788) {
+    Utilities.setInstance(this);
 
-      @Override
-      public void onUpdateAvailable() {
-        logger.info("A new update has been released!");
-        logger.info("Your current version is: " + getDescription().getVersion());
-        logger.info("The latest version is: " + OmegaUpdater.getLatestVersion());
-        logger.info("You can update here: https://www.spigotmc.org/resources/omegawarps." + OmegaUpdater.getProjectId());
+    // Logs a message to console, saying that the plugin has enabled correctly.
+    Utilities.logInfo(true, "OmegaWarps has been enabled!");
+
+    // Setup the files
+    getConfigFile().createConfig();
+    getMessagesFile().createConfig();
+    getWarpsFile().createConfig();
+
+    getWarpsFile().getConfig().options().header(
+      " -------------------------------------------------------------------------------------------\n" +
+        " \n" +
+        " Welcome to OmegaWarps warp file.\n" +
+        " \n" +
+        " This file stores all the warps that are created on the server.\n" +
+        " It will include the player who created it, the location & who it was created for.\n" +
+        " \n" +
+        " -------------------------------------------------------------------------------------------"
+    );
+
+    // Register the commands and the events
+    Utilities.registerCommands(new MainCommand(), new RemoveWarp(), new SetWarp(),
+      new WarpCheck(), new Warp(), new WarpList());
+
+    Utilities.registerEvent(new PlayerListener());
+
+    // Setup Economy Support
+    if(!setupEconomy() ) {
+      Utilities.logSevere(true, String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
+      getServer().getPluginManager().disablePlugin(this);
+      return;
+    }
+
+    // The Updater
+    new UpdateChecker(this, 74788).getVersion(version -> {
+      if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
+        Utilities.logInfo(true, "You are already running the latest version");
+      } else {
+        PluginDescriptionFile pdf = this.getDescription();
+        Utilities.logWarning(true,
+          "A new version of " + pdf.getName() + " is avaliable!",
+          "Current Version: " + pdf.getVersion() + " > New Version: " + version,
+          "Grab it here: https://spigotmc.org/resources/73013"
+        );
       }
-    }.runTaskAsynchronously(this);
+    });
+
   }
   
   @Override
@@ -64,9 +78,9 @@ public class OmegaWarps extends JavaPlugin {
   }
   
   public void onReload() {
-    ConfigFile.init();
-    MessagesFile.init();
-    WarpFile.reloadWarpData();
+    getConfigFile().reloadConfig();
+    getMessagesFile().reloadConfig();
+    getWarpsFile().reloadConfig();
   }
   
   private boolean setupEconomy() {
@@ -79,6 +93,18 @@ public class OmegaWarps extends JavaPlugin {
     }
     econ = rsp.getProvider();
     return econ != null;
+  }
+
+  public static ConfigCreator getConfigFile() {
+    return configFile;
+  }
+
+  public static ConfigCreator getMessagesFile() {
+    return messagesFile;
+  }
+
+  public static ConfigCreator getWarpsFile() {
+    return warpsFile;
   }
   
   public static Economy getEconomy() {

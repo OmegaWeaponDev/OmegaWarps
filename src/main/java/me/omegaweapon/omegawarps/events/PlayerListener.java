@@ -1,14 +1,13 @@
 package me.omegaweapon.omegawarps.events;
 
-import me.omegaweapon.omegawarps.OmegaUpdater;
 import me.omegaweapon.omegawarps.OmegaWarps;
-import me.omegaweapon.omegawarps.settings.ConfigFile;
-import me.omegaweapon.omegawarps.settings.MessagesFile;
-import me.omegaweapon.omegawarps.utils.Utilities;
+import me.omegaweapon.omegawarps.UpdateChecker;
+import me.ou.library.Utilities;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 public class PlayerListener implements Listener {
   
@@ -18,19 +17,21 @@ public class PlayerListener implements Listener {
     
     if(player.hasPermission("omegawarps.update") || player.isOp()) {
       
-      if(ConfigFile.UPDATE_NOTIFY.equals(true)) {
-        // Update Checker
-        new OmegaUpdater(74788) {
+      if(OmegaWarps.getConfigFile().getConfig().getBoolean("Update_Notify")) {
 
-          @Override
-          public void onUpdateAvailable() {
-            player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + "&b A new update has been released!"));
-            player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + "&b Your current version is: &c" + OmegaWarps.getInstance().getDescription().getVersion()));
-            player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + "&b The latest version is: &c" + OmegaUpdater.getLatestVersion()));
-            player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + "&b You can update here:"));
-            player.sendMessage(Utilities.Colourize(MessagesFile.PREFIX + "&c https://www.spigotmc.org/resources/omegadeath." + OmegaUpdater.getProjectId()));
-          }
-        }.runTaskAsynchronously(OmegaWarps.getInstance());
+        // Send the player a message on join if there is an update for the plugin
+        if(Utilities.checkPermission(player, "omegawarps.update", true)) {
+          new UpdateChecker(OmegaWarps.getInstance(), 74788).getVersion(version -> {
+            if (!OmegaWarps.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
+              PluginDescriptionFile pdf = OmegaWarps.getInstance().getDescription();
+              Utilities.message(player,
+                "&bA new version of &c" + pdf.getName() + " &bis avaliable!",
+                "&bCurrent Version: &c" + pdf.getVersion() + " &b> New Version: &c" + version,
+                "&bGrab it here:&c https://spigotmc.org/resources/73013"
+              );
+            }
+          });
+        }
       }
     }
   }

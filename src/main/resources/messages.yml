@@ -15,10 +15,23 @@
 Prefix: "&7&l[&aOmegaWarps&7&l]"
 
 # Set the message that players get when they create a warp
-Setwarp_Message: "&bYou have created the warp %warpName% for %warpOwner%!"
+Setwarp_Message:
+  # Set the message for warps that are created with an owner
+  With_Owner: "&bYou have created the warp %warpName% for %warpOwner%!"
+  # Set the message for warps that are created without an owner
+  Without_Owner: "&bYou have created the warp %warpName%"
+
+# Set the message players receive when the warp cost is taken
+Warp_Cost_Taken: "&bThe amount of price &c$%warpCost% &bhas been taken from your account for the warp."
+
+# Set the message that players get when they delete a warp
+Remove_Warp_Message: "&bYou have successfully deleted the warp %warpName%"
 
 # Set the message players receive when they warp somewhere.
 Warp_Message: "&cYou have warped to %warpName%"
+
+# Set the message players receive when they reload the plugin
+Reload_Message: "&bOmegaWarps has successfully been reloaded"
 
 # Set the message players are sent when they try to use an OmegaWarps command without permission
 No_Permission: "&cSorry, you do not have permission to do that."
