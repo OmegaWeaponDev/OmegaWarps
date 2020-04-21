@@ -43,8 +43,13 @@ public class OmegaWarps extends JavaPlugin {
     );
 
     // Register the commands and the events
-    Utilities.registerCommands(new MainCommand(), new RemoveWarp(), new SetWarp(),
-      new WarpCheck(), new Warp(), new WarpList());
+    Utilities.registerCommand("omegawarps", new MainCommand());
+    Utilities.registerCommand("delwarp", new RemoveWarp());
+    Utilities.registerCommand("setwarp", new SetWarp());
+    Utilities.registerCommand("warp", new Warp());
+    Utilities.registerCommand("checkwarp", new WarpCheck());
+    Utilities.registerCommand("listwarps", new WarpList());
+    Utilities.registerCommand("clearwarps", new ClearWarps());
 
     Utilities.registerEvent(new PlayerListener());
 

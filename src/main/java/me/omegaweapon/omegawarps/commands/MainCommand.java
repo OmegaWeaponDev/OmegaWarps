@@ -5,23 +5,8 @@ import me.ou.library.Utilities;
 import me.ou.library.commands.PlayerCommand;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-
 public class MainCommand extends PlayerCommand {
-  private String prefix = OmegaWarps.getMessagesFile().getConfig().getString("Prefix");
-
-  public MainCommand() {
-    super("omegawarps");
-
-    // Set the description message
-    setDescription("The main command for the OmegaWarp plugin");
-
-    // Set the command aliases
-    setAliases(Arrays.asList(
-      "ow",
-      "owarps"
-    ));
-  }
+  private final String prefix = OmegaWarps.getMessagesFile().getConfig().getString("Prefix");
 
   @Override
   protected void onCommand(final Player player, final String[] strings) {

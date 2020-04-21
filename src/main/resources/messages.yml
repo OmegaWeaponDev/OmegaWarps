@@ -27,6 +27,9 @@ Warp_Cost_Taken: "&bThe amount of price &c$%warpCost% &bhas been taken from your
 # Set the message that players get when they delete a warp
 Remove_Warp_Message: "&bYou have successfully deleted the warp %warpName%"
 
+# Set the message that players get when they delete all warps
+Clear_Warps_Message: "&cYou have deleted all the warps!"
+
 # Set the message players receive when they warp somewhere.
 Warp_Message: "&cYou have warped to %warpName%"
 

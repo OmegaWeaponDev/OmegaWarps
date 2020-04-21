@@ -10,10 +10,84 @@ authors: ${pl.authors}
 softdepend:
   - Vault
 
-Commands:
-  - omegawarps
-  - delwarp
-  - setwarp
-  - warp
-  - checkwarp
-  - listwarps
+commands:
+  omegawarps:
+    description: Main command for the plugin
+    usage: /omegawarps
+    aliases: [ow, owarps]
+  delwarp:
+    description: Command to delete warps
+    usage: /delwarp <warpname>
+    aliases: [deletewarp, removewarp, destorywarp]
+  setwarp:
+    description: Command to set warps
+    usage: /setwarp <playername> <warp name>
+    aliases: [createwarp, makewarp, addwarp]
+  warp:
+    description: Command to use the warps
+    usage: /warp <name>
+  checkwarp:
+    description: Command to check the warp details
+    usage: /checkwarp <warpname>
+    aliases: [warpinfo, infowarp, warpcheck]
+  listwarps:
+    description: Command to list all the warps
+    usage: /listwarps
+    aliases: [warpslist]
+  clearwarps:
+    description: Command to delete all the warps
+    usage: /clearwarps
+
+permissions:
+  omegawarps.*:
+    default: op
+    description: Grants access to all the commands
+    children:
+      - omegawarps.admin
+      - omegawarps.reload
+      - omegawarps.update
+      - omegawarps.setwarp
+      - omegawarps.setwarp.others
+      - omegawarps.warps
+      - omegawarps.delwarp
+      - omegawarps.checkwarps
+      - omegawarps.listwarps
+      - omegawarps.cost.bypass
+      - omegawarps.clearwarps
+  omegawarps.admin:
+    default: false
+    description: Grants access to the reload command, clearwarp command and receive update messages
+    children:
+      - omegawarps.update
+      - omegawarps.reload
+      - omegawarps.clearwarps
+  omegawarps.reload:
+    default: false
+    description: Grants access to the reload command
+  omegawarps.update:
+    default: false
+    description: Allows the user to receive the update message in-game
+  omegawarps.setwarp:
+    default: false
+    description: Grants access to the setwarp command
+  omegawarps.setwarp.others:
+    default: false
+    description: Grants access to setting warps for other players
+  omegwarps.warps:
+    default: false
+    description: Grants access to the warp command
+  omegawarps.delwarp:
+    default: false
+    description: Grants access to the delwarp command
+  omegawarps.checkwarps:
+    default: false
+    description: Grants access to the checkwarp command
+  omegawarps.listwarps:
+    default: false
+    description: Grants access to the listwarps command
+  omegawarps.cost.bypass:
+    default: false
+    description: Allows the user to bypass the cost for setting warps
+  omegawarps.clearwarps:
+    default: false
+    description: Grants access to the clearwarps command

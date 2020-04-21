@@ -10,8 +10,8 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class UpdateChecker {
-  private Plugin plugin;
-  private int resourceId;
+  private final Plugin plugin;
+  private final int resourceId;
 
   public UpdateChecker(Plugin plugin, int resourceId) {
     this.plugin = plugin;
