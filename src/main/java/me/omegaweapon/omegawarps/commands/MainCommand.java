@@ -6,38 +6,37 @@ import me.ou.library.commands.PlayerCommand;
 import org.bukkit.entity.Player;
 
 public class MainCommand extends PlayerCommand {
-  private final String prefix = OmegaWarps.getMessagesFile().getConfig().getString("Prefix");
 
   @Override
   protected void onCommand(final Player player, final String[] strings) {
 
     if(strings.length == 0) {
-      Utilities.message(player, prefix + " &bRunning version: &c" + OmegaWarps.getInstance().getDescription().getVersion());
+      Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bRunning version: &c" + OmegaWarps.getInstance().getDescription().getVersion());
     }
 
     if (strings.length == 1) {
       if(strings[0].equalsIgnoreCase("help")) {
         Utilities.message(player,
-          prefix + " &bReload Command: &c/omegawarps reload",
-          prefix + " &bVersion Command: &c/omegawarps version",
-          prefix + " &bSetWarp command: &c/setwarp <player> <warp> &b& &c/setwarp <warp>",
-          prefix + " &bWarpList command: &c/listwarps",
-          prefix + " &bRemoveWarp command: &c/delwarp <warp>",
-          prefix + " &bWarpCheck command: &c/checkwarp <warp>",
-          prefix + " &bWarp command: &c/warp <warp>"
+          OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bReload Command: &c/omegawarps reload",
+          OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bVersion Command: &c/omegawarps version",
+          OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bSetWarp command: &c/setwarp <player> <warp> &b& &c/setwarp <warp>",
+          OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bWarpList command: &c/listwarps",
+          OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bRemoveWarp command: &c/delwarp <warp>",
+          OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bWarpCheck command: &c/checkwarp <warp>",
+          OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bWarp command: &c/warp <warp>"
         );
       }
 
       if(strings[0].equalsIgnoreCase("version")) {
-        Utilities.message(player, prefix + " &bRunning version: &c" + OmegaWarps.getInstance().getDescription().getVersion());
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bRunning version: &c" + OmegaWarps.getInstance().getDescription().getVersion());
       }
 
       if(strings[0].equalsIgnoreCase("reload")) {
         if(Utilities.checkPermission(player, "omegawarps.reload", true)) {
           OmegaWarps.getInstance().onReload();
-          Utilities.message(player, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("Reload_Message"));
+          Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("Reload_Message"));
         } else {
-          Utilities.message(player, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("No_Permission"));
+          Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("No_Permission"));
         }
       }
     }

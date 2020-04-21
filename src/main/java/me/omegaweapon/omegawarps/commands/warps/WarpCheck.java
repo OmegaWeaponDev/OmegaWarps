@@ -6,14 +6,13 @@ import me.ou.library.commands.PlayerCommand;
 import org.bukkit.entity.Player;
 
 public class WarpCheck extends PlayerCommand {
-  private final String prefix = OmegaWarps.getMessagesFile().getConfig().getString("Prefix");
 
   @Override
   protected void onCommand(final Player player, final String[] strings) {
 
     if(Utilities.checkPermission(player, "omegawarps.checkwarp", true)) {
       if(strings.length == 0) {
-        Utilities.message(player, prefix + " &b/checkwarp <warp name> - View the information about a specific warp");
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &b/checkwarp <warp name> - View the information about a specific warp");
       }
 
       if(strings.length == 1) {
@@ -26,28 +25,28 @@ public class WarpCheck extends PlayerCommand {
 
           if(warpOwner != null) {
             Utilities.message(player,
-              prefix + "&bWarp Name: &c" + warpName,
-              prefix + "&bSet By: &c" + warpCreator,
-              prefix + "&bSet For: &c" + warpOwner,
-              prefix + "&bTime Set: &c" + timeSet,
-              prefix + "&bWorld: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.World"),
-              prefix + "&bLocation X: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.X"),
-              prefix + "&bLocation Y: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Y"),
-              prefix + "&bLocation Z: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Z")
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bWarp Name: &c" + warpName,
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bSet By: &c" + warpCreator,
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bSet For: &c" + warpOwner,
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bTime Set: &c" + timeSet,
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bWorld: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.World"),
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bLocation X: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.X"),
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bLocation Y: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Y"),
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bLocation Z: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Z")
             );
           } else {
             Utilities.message(player,
-              prefix + "&bWarp Name: &c" + warpName,
-              prefix + "&bSet By: &c" + warpCreator,
-              prefix + "&bTime Set: &c" + timeSet,
-              prefix + "&bWorld: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.World"),
-              prefix + "&bLocation X: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.X"),
-              prefix + "&bLocation Y: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Y"),
-              prefix + "&bLocation Z: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Z")
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bWarp Name: &c" + warpName,
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bSet By: &c" + warpCreator,
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bTime Set: &c" + timeSet,
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bWorld: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.World"),
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bLocation X: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.X"),
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bLocation Y: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Y"),
+              OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + "&bLocation Z: &c" + OmegaWarps.getWarpsFile().getConfig().getString(warpName + ".Warp Location.Z")
             );
           }
         } else {
-          Utilities.message(player, prefix + " &cSorry, that warp does not exist.");
+          Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &cSorry, that warp does not exist.");
         }
       }
     } else {

@@ -8,15 +8,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class SetWarp extends PlayerCommand {
-  private final String prefix = OmegaWarps.getMessagesFile().getConfig().getString("Prefix");
 
   @Override
   protected void onCommand(final Player player, final String[] strings) {
 
     if(Utilities.checkPermission(player, "omegawarps.setwarp", true)) {
       if(strings.length == 0) {
-        Utilities.message(player, prefix + " &b/setwarp <player name> <warp name> - Create a warp for the given player.");
-        Utilities.message(player, prefix + " &b/setwarp <warp name> - Create a warp with no owner set.");
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &b/setwarp <player name> <warp name> - Create a warp for the given player.");
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &b/setwarp <warp name> - Create a warp with no owner set.");
       }
 
       if(strings.length == 1) {
@@ -31,7 +30,7 @@ public class SetWarp extends PlayerCommand {
           if(warpOwner != null) {
             Warps.createWarpOthers(player, Bukkit.getPlayer(strings[0]), strings[1].toLowerCase(), player.getLocation(), OmegaWarps.getConfigFile().getConfig().getDouble("Warp_Cost.Cost"));
           } else {
-            Utilities.message(player, prefix + " &cSorry, that player does not exist or they are offline.");
+            Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &cSorry, that player does not exist or they are offline.");
           }
         }
       }

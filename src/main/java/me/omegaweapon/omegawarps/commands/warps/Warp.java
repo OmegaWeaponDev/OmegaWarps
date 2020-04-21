@@ -8,15 +8,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class Warp extends PlayerCommand {
-  private static final String prefix = OmegaWarps.getMessagesFile().getConfig().getString("Prefix");
 
   @Override
   protected void onCommand(final Player player, final String[] strings) {
 
     if(strings.length == 0) {
       Utilities.message(player,
-        prefix + " &b Warp: &c/warp <warpname> &b- Warp to a specific place.",
-        prefix + " &bWarp Others &c/warp <warpname> <playername> &b- Send another player to a warp location"
+        OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &b Warp: &c/warp <warpname> &b- Warp to a specific place.",
+        OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bWarp Others &c/warp <warpname> <playername> &b- Send another player to a warp location"
       );
     }
 
@@ -28,14 +27,14 @@ public class Warp extends PlayerCommand {
           Warps.beforeWarpEffects(player);
           Warps.postWarpEffects(player, warpName);
         } else {
-          Utilities.message(player, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("No_Permission"));
+          Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("No_Permission"));
         }
       } else {
         if(Utilities.checkPermission(player, "omegawarps.warps", true)) {
           Warps.beforeWarpEffects(player);
           Warps.postWarpEffects(player, warpName);
         } else {
-          Utilities.message(player, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("No_Permission"));
+          Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("No_Permission"));
         }
       }
     }
@@ -49,7 +48,7 @@ public class Warp extends PlayerCommand {
           Warps.beforeWarpEffects(target);
           Warps.postWarpEffects(target, warpName);
         } else {
-          Utilities.message(player, prefix + " &cSorry, but that player is either offline or does not exist");
+          Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &cSorry, but that player is either offline or does not exist");
         }
       }
     }

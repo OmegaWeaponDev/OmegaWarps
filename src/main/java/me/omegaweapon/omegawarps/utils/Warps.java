@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Warps {
-  private static final String prefix = OmegaWarps.getMessagesFile().getConfig().getString("Prefix");
 
   private static void getWarpLocation(final Player player, final String warpName) {
     if(OmegaWarps.getWarpsFile().getConfig().isSet(warpName)) {
@@ -34,7 +33,7 @@ public class Warps {
 
     for(String currentWarps : OmegaWarps.getWarpsFile().getConfig().getKeys(false)) {
       if(currentWarps.equalsIgnoreCase(warpName)) {
-        Utilities.message(player, prefix + " &cSorry, but that warp already exists");
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &cSorry, but that warp already exists");
         return;
       }
       return;
@@ -53,14 +52,14 @@ public class Warps {
       ex.printStackTrace();
     }
 
-    Utilities.message(player, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("Setwarp_Message.Without_Owner").replace("%warpName%", warpName));
+    Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("Setwarp_Message.Without_Owner").replace("%warpName%", warpName));
   }
 
   public static void createWarpOthers(final Player player, final Player target, final String warpName, final Location warpLocation, final Double warpCost) {
 
     for(String currentWarps : OmegaWarps.getWarpsFile().getConfig().getKeys(false)) {
       if(currentWarps.equalsIgnoreCase(warpName)) {
-        Utilities.message(player, prefix + " &cSorry, but that warp already exists");
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &cSorry, but that warp already exists");
         return;
       }
       return;
@@ -85,10 +84,10 @@ public class Warps {
         }
 
         OmegaWarps.getEconomy().withdrawPlayer(target, warpCost);
-        Utilities.message(target, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("Warp_Cost_Taken").replace("%warpCost%", warpCost.toString()));
-        Utilities.message(player, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("Setwarp_Message.With_Owner").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
+        Utilities.message(target, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("Warp_Cost_Taken").replace("%warpCost%", warpCost.toString()));
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("Setwarp_Message.With_Owner").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
       } else {
-        Utilities.message(player, prefix + " &bThe player " + target.getName() + " does not have enough money to pay for the warp.");
+        Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " &bThe player " + target.getName() + " does not have enough money to pay for the warp.");
       }
     } else {
       OmegaWarps.getWarpsFile().getConfig().createSection(warpName);
@@ -104,7 +103,7 @@ public class Warps {
       } catch (Exception ex) {
         ex.printStackTrace();
       }
-      Utilities.message(player, prefix + " " + OmegaWarps.getMessagesFile().getConfig().getString("Setwarp_Message.With_Owner").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
+      Utilities.message(player, OmegaWarps.getMessagesFile().getConfig().getString("Prefix") + " " + OmegaWarps.getMessagesFile().getConfig().getString("Setwarp_Message.With_Owner").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
     }
   }
 
