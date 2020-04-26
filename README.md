@@ -33,7 +33,8 @@ Below is a brief list of the features that are included in the plugin
 You can always find the latest version by visiting the [spigot](https://www.spigotmc.org/resources/omegawarps.74788/) 
 page. This plugin works on all Bukkit/Spigot/Paper servers from version 1.13 and above.
 
-When it comes to installing the plugin, Simply drop the omegawarps-[version number].jar into your servers plugin folder and then start your server. 
+When it comes to installing the plugin, Simply drop the omegawarps-[version number].jar into your servers plugin folder and then start your server.
+Then you are able to adjust all the plugin messages and config settings to suit your needs!
 
 Notes: If you want players to pay for their own warps you will also need to install [Vault](https://www.spigotmc.org/resources/vault.34315/) installed as well.
 
