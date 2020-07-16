@@ -1,6 +1,6 @@
 name: ${project.name}
 version: ${project.version}
-api-version: 1.15
+api-version: ${pl.apiver}
 description: ${project.description}
 main: ${main.class}
 
@@ -40,10 +40,9 @@ commands:
 
 permissions:
   omegawarps.*:
-    default: op
+    default: false
     description: Grants access to all the commands
     children:
-      - omegawarps.admin
       - omegawarps.reload
       - omegawarps.update
       - omegawarps.setwarp
@@ -53,13 +52,6 @@ permissions:
       - omegawarps.checkwarps
       - omegawarps.listwarps
       - omegawarps.cost.bypass
-      - omegawarps.clearwarps
-  omegawarps.admin:
-    default: false
-    description: Grants access to the reload command, clearwarp command and receive update messages
-    children:
-      - omegawarps.update
-      - omegawarps.reload
       - omegawarps.clearwarps
   omegawarps.reload:
     default: false
