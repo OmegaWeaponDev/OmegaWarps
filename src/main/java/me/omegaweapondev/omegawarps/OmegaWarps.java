@@ -1,8 +1,8 @@
-package me.omegaweapon.omegawarps;
+package me.omegaweapondev.omegawarps;
 
-import me.omegaweapon.omegawarps.commands.MainCommand;
-import me.omegaweapon.omegawarps.commands.warps.*;
-import me.omegaweapon.omegawarps.events.PlayerListener;
+import me.omegaweapondev.omegawarps.commands.MainCommand;
+import me.omegaweapondev.omegawarps.commands.warps.*;
+import me.omegaweapondev.omegawarps.events.PlayerListener;
 import me.ou.library.Utilities;
 import me.ou.library.configs.ConfigCreator;
 import net.milkbowl.vault.economy.Economy;

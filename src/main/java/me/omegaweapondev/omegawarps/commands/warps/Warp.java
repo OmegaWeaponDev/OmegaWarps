@@ -1,8 +1,8 @@
-package me.omegaweapon.omegawarps.commands.warps;
+package me.omegaweapondev.omegawarps.commands.warps;
 
-import me.omegaweapon.omegawarps.OmegaWarps;
-import me.omegaweapon.omegawarps.utils.MessageHandler;
-import me.omegaweapon.omegawarps.utils.Warps;
+import me.omegaweapondev.omegawarps.OmegaWarps;
+import me.omegaweapondev.omegawarps.utils.MessageHandler;
+import me.omegaweapondev.omegawarps.utils.Warps;
 import me.ou.library.Utilities;
 import me.ou.library.commands.GlobalCommand;
 import org.bukkit.Bukkit;
@@ -21,8 +21,8 @@ public class Warp extends GlobalCommand {
 
       if(strings.length == 0) {
         Utilities.message(player,
-          MessageHandler.pluginPrefix() + " &b Warp: &c/warp <warpname> &b- Warp to a specific place.",
-          MessageHandler.pluginPrefix() + " &bWarp Others &c/warp <warpname> <playername> &b- Send another player to a warp location"
+          MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&b Warp: &c/warp <warpname> &b- Warp to a specific place.",
+          MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarp Others &c/warp <warpname> <playername> &b- Send another player to a warp location"
         );
         return;
       }
@@ -59,14 +59,14 @@ public class Warp extends GlobalCommand {
   private void playerWarp(final Player player, final String warpName) {
 
     if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
-      Utilities.message(player, MessageHandler.pluginPrefix() + " &cSorry, that warp does not exist!");
+      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, that warp does not exist!");
       return;
     }
 
     if(!OmegaWarps.getInstance().getConfigFile().getConfig().getBoolean("Per_Warp_Permissions")) {
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.warps", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
         return;
       }
 
@@ -76,7 +76,7 @@ public class Warp extends GlobalCommand {
     }
 
     if(!Utilities.checkPermissions(player, true, "omegawarps.warp." + warpName, "omegawarps.warp.*", "omegawarps.*")) {
-      Utilities.message(player, MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
       return;
     }
 
@@ -90,17 +90,17 @@ public class Warp extends GlobalCommand {
       Player player = (Player) sender;
 
       if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
-        Utilities.message(player, MessageHandler.pluginPrefix() + " &cSorry, that warp does not exist!");
+        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, that warp does not exist!");
         return;
       }
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.warps.others", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
         return;
       }
 
       if(target == null) {
-        Utilities.message(player, MessageHandler.pluginPrefix() + " &cSorry, but that player is either offline or does not exist");
+        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, but that player is either offline or does not exist");
         return;
       }
 

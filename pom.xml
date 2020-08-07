@@ -18,7 +18,7 @@
   <groupId>me.omegaweapon</groupId>
   <artifactId>omegawarps</artifactId>
   <name>OmegaWarps</name>
-  <version>2.1.1</version>
+  <version>2.1.2</version>
   <description>OmegaWarps lets your players warp around in style.</description>
 
   <!--
@@ -32,12 +32,12 @@
       The full path to your plugin's main class, so that Spigot can find and load it.
       This is used in the plugin.yml for automatic input into the file.
     -->
-    <main.class>me.omegaweapon.omegawarps.OmegaWarps</main.class>
+    <main.class>me.omegaweapondev.omegawarps.OmegaWarps</main.class>
 
     <!--
       Listing the Author or Authors of the plugin. Use in the plugin.yml file.
     -->
-    <pl.author>OmegaWeapon</pl.author>
+    <pl.author>OmegaWeaponDev</pl.author>
     <pl.authors>[UltimaWeapon_]</pl.authors>
 
     <!--
@@ -120,7 +120,7 @@
     <dependency>
       <groupId>me.ou</groupId>
       <artifactId>library</artifactId>
-      <version>1.4.0</version>
+      <version>1.4.1</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

@@ -1,4 +1,4 @@
-package me.omegaweapon.omegawarps;
+package me.omegaweapondev.omegawarps;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;

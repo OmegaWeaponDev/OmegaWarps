@@ -1,7 +1,7 @@
-package me.omegaweapon.omegawarps.commands.warps;
+package me.omegaweapondev.omegawarps.commands.warps;
 
-import me.omegaweapon.omegawarps.OmegaWarps;
-import me.omegaweapon.omegawarps.utils.MessageHandler;
+import me.omegaweapondev.omegawarps.OmegaWarps;
+import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.ou.library.Utilities;
 import me.ou.library.commands.GlobalCommand;
 import org.bukkit.command.CommandSender;
@@ -17,7 +17,7 @@ public class ClearWarps extends GlobalCommand {
       Player player = (Player) sender;
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.clearwarps", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
         return;
       }
 
@@ -26,7 +26,8 @@ public class ClearWarps extends GlobalCommand {
       }
 
       OmegaWarps.getInstance().getWarpsFile().saveConfig();
-      Utilities.message(player, MessageHandler.playerMessage("Clear_Warps_Message", "&cYou have deleted all the warps!"));
+      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Clear_Warps_Message", "&cYou have deleted all the warps!"));
+      return;
     }
 
     if(sender instanceof ConsoleCommandSender) {

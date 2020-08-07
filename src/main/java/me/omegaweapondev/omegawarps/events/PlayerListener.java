@@ -1,7 +1,7 @@
-package me.omegaweapon.omegawarps.events;
+package me.omegaweapondev.omegawarps.events;
 
-import me.omegaweapon.omegawarps.OmegaWarps;
-import me.omegaweapon.omegawarps.UpdateChecker;
+import me.omegaweapondev.omegawarps.OmegaWarps;
+import me.omegaweapondev.omegawarps.UpdateChecker;
 import me.ou.library.Utilities;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

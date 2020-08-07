@@ -1,7 +1,7 @@
-package me.omegaweapon.omegawarps.commands;
+package me.omegaweapondev.omegawarps.commands;
 
-import me.omegaweapon.omegawarps.OmegaWarps;
-import me.omegaweapon.omegawarps.utils.MessageHandler;
+import me.omegaweapondev.omegawarps.OmegaWarps;
+import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.ou.library.Utilities;
 import me.ou.library.commands.GlobalCommand;
 import org.bukkit.command.CommandSender;
@@ -39,8 +39,8 @@ public class MainCommand extends GlobalCommand {
       Player player = (Player) sender;
 
       Utilities.message(player,
-        MessageHandler.pluginPrefix() + " &bOmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
-        MessageHandler.pluginPrefix() + " &c/omegawarps help &bto display all the commands"
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + " &bOmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&c/omegawarps help &bto display all the commands"
       );
       return;
     }
@@ -58,12 +58,12 @@ public class MainCommand extends GlobalCommand {
       Player player = (Player) sender;
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.reload", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("No_Permission", "&cSorry, but you do not have permission to use this command."));
+        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, but you do not have permission to use this command."));
         return;
       }
 
       OmegaWarps.getInstance().onReload();
-      Utilities.message(player, MessageHandler.playerMessage("Reload_Message", "&bOmegaWarps has successfully been reloaded"));
+      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Reload_Message", "&bOmegaWarps has successfully been reloaded"));
       return;
     }
 
@@ -77,7 +77,7 @@ public class MainCommand extends GlobalCommand {
     if(sender instanceof Player) {
       Player player = (Player) sender;
 
-      Utilities.message(player, MessageHandler.pluginPrefix() + " OmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev");
+      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "OmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev");
       return;
     }
 
@@ -91,14 +91,14 @@ public class MainCommand extends GlobalCommand {
       Player player = (Player) sender;
 
       Utilities.message(player,
-        MessageHandler.pluginPrefix() + " &bOmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
-        MessageHandler.pluginPrefix() + " &bReload Command: &c/omegawarps reload",
-        MessageHandler.pluginPrefix() + " &bVersion Command: &c/omegawarps version",
-        MessageHandler.pluginPrefix() + " &bSetWarp command: &c/setwarp <player> <warp> &b& &c/setwarp <warp>",
-        MessageHandler.pluginPrefix() + " &bWarpList command: &c/listwarps",
-        MessageHandler.pluginPrefix() + " &bRemoveWarp command: &c/delwarp <warp>",
-        MessageHandler.pluginPrefix() + " &bWarpCheck command: &c/checkwarp <warp>",
-        MessageHandler.pluginPrefix() + " &bWarp command: &c/warp <warp>"
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + " &bOmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bReload Command: &c/omegawarps reload",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bVersion Command: &c/omegawarps version",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bSetWarp command: &c/setwarp <player> <warp> &b& &c/setwarp <warp>",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarpList command: &c/listwarps",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bRemoveWarp command: &c/delwarp <warp>",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarpCheck command: &c/checkwarp <warp>",
+        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarp command: &c/warp <warp>"
       );
     } else {
       Utilities.logInfo(true,
