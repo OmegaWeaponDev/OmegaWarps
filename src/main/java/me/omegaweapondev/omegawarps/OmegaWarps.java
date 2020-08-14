@@ -3,14 +3,19 @@ package me.omegaweapondev.omegawarps;
 import me.omegaweapondev.omegawarps.commands.MainCommand;
 import me.omegaweapondev.omegawarps.commands.warps.*;
 import me.omegaweapondev.omegawarps.events.PlayerListener;
+import me.ou.library.SpigotUpdater;
 import me.ou.library.Utilities;
 import me.ou.library.configs.ConfigCreator;
+import me.ou.library.configs.ConfigUpdater;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 public class OmegaWarps extends JavaPlugin {
   public static OmegaWarps instance;
@@ -24,6 +29,7 @@ public class OmegaWarps extends JavaPlugin {
   public void onEnable() {
     initialSetup();
     setupConfigs();
+    configUpdater();
     setupCommands();
     setupEvents();
     setupEconomy();
@@ -73,6 +79,28 @@ public class OmegaWarps extends JavaPlugin {
     );
   }
 
+  private void configUpdater() {
+    Utilities.logInfo(true, "Attempting to update the config files....");
+
+    try {
+      if(getConfigFile().getConfig().getDouble("Config_Version") != 1.1) {
+        getConfigFile().getConfig().set("Config_Version", 1.1);
+        getConfigFile().saveConfig();
+        ConfigUpdater.update(OmegaWarps.getInstance(), "config.yml", getConfigFile().getFile(), Arrays.asList("none"));
+      }
+
+      if(getMessagesFile().getConfig().getDouble("Config_Version") != 1.0) {
+        getMessagesFile().getConfig().set("Config_Version", 1.0);
+        getMessagesFile().saveConfig();
+        ConfigUpdater.update(OmegaWarps.getInstance(), "messages.yml", getMessagesFile().getFile(), Arrays.asList("none"));
+      }
+      onReload();
+      Utilities.logInfo(true, "Config Files have successfully been updated!");
+    } catch(IOException ex) {
+      ex.printStackTrace();
+    }
+  }
+
   private void setupConfigs() {
     // Setup the files
     getConfigFile().createConfig();
@@ -114,7 +142,7 @@ public class OmegaWarps extends JavaPlugin {
   }
 
   private void spigotUpdater() {
-    new UpdateChecker(this, 74788).getVersion(version -> {
+    new SpigotUpdater(this, 74788).getVersion(version -> {
       if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
         Utilities.logInfo(true, "You are already running the latest version");
       } else {

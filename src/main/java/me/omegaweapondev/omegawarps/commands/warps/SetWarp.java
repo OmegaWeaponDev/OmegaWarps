@@ -25,7 +25,7 @@ public class SetWarp extends PlayerCommand {
     }
 
     if(strings.length == 1) {
-      Warps.createWarp(player, strings[0].toLowerCase(), player.getLocation());
+      Warps.createWarp(player, strings[0], player.getLocation());
       return;
     }
 
@@ -43,7 +43,7 @@ public class SetWarp extends PlayerCommand {
         return;
       }
 
-      Warps.createWarpOthers(player, Bukkit.getPlayer(strings[0]), strings[1].toLowerCase(), player.getLocation(), OmegaWarps.getInstance().getConfigFile().getConfig().getDouble("Warp_Cost.Cost"));
+      Warps.createWarpOthers(player, Bukkit.getPlayer(strings[0]), strings[1], player.getLocation(), OmegaWarps.getInstance().getConfigFile().getConfig().getDouble("Warp_Cost.Cost"));
     }
   }
 }

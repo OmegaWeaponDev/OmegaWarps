@@ -2,14 +2,10 @@ package me.omegaweapondev.omegawarps.utils;
 
 import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.ou.library.Utilities;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -37,9 +33,6 @@ public class Warps {
     }
 
     Location warpLocation = new Location(warpLocationWorld, warpLocationX, warpLocationY, warpLocationZ, warpLocationYaw, warpLocationPitch);
-    Vector playerDirection = warpsConfigFile.getVector(warpName + ".Direction");
-
-    //player.getLocation().setDirection(playerDirection);
     player.teleport(warpLocation);
   }
 
@@ -119,6 +112,7 @@ public class Warps {
   }
 
   public static void beforeWarpEffects(final Player player) {
+    player.playSound(player.getLocation(), Sound.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Sound_Effects.Before_Warp_Sound")), 1, 1);
     player.spawnParticle(
       Particle.valueOf(
         OmegaWarps.getInstance().getConfigFile().getConfig().getString("Warp_Particle_Effects.Before_Warp")),
@@ -142,6 +136,7 @@ public class Warps {
         getWarpLocation(player, warpName);
         Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Warp_Message", "&cYou have warped to %warpName%").replace("%warpName%", warpName).replace("%player%", player.getDisplayName()));
         player.spawnParticle(Particle.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Warp_Particle_Effects.After_Warp")), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 50);
+        player.playSound(player.getLocation(), Sound.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Sound_Effects.After_Warp_Sound")), 1, 1);
       }
     }.runTaskLater(OmegaWarps.getInstance(), 10);
   }

@@ -23,7 +23,7 @@ public class WarpCheck extends PlayerCommand {
       return;
     }
 
-    String warpName = strings[0].toLowerCase();
+    String warpName = strings[0];
 
     if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
       Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, that warp does not exist.");
@@ -40,7 +40,6 @@ public class WarpCheck extends PlayerCommand {
         MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bSet By: &c" + warpCreator,
         MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bSet For: &c" + warpOwner,
         MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bTime Set: &c" + timeSet,
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bDirection: &c" + warpConfigFile.getDouble(warpName + ".Direction"),
         MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWorld: &c" + warpConfigFile.getString(warpName + ".Warp Location.World"),
         MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bLocation X: &c" + warpConfigFile.getString(warpName + ".Warp Location.X"),
         MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bLocation Y: &c" + warpConfigFile.getString(warpName + ".Warp Location.Y"),
@@ -53,7 +52,6 @@ public class WarpCheck extends PlayerCommand {
       MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarp Name: &c" + warpName,
       MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bSet By: &c" + warpCreator,
       MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bTime Set: &c" + timeSet,
-      MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bDirection: &c" + warpConfigFile.getDouble(warpName + ".Direction"),
       MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWorld: &c" + warpConfigFile.getString(warpName + ".Warp Location.World"),
       MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bLocation X: &c" + warpConfigFile.getString(warpName + ".Warp Location.X"),
       MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bLocation Y: &c" + warpConfigFile.getString(warpName + ".Warp Location.Y"),

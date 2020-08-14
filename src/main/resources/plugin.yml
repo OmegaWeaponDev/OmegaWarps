@@ -33,7 +33,7 @@ commands:
   listwarps:
     description: Command to list all the warps
     usage: /listwarps
-    aliases: [warpslist]
+    aliases: [warpslist, warps]
   clearwarps:
     description: Command to delete all the warps
     usage: /clearwarps

@@ -38,3 +38,6 @@ Reload_Message: "&bOmegaWarps has successfully been reloaded"
 
 # Set the message players are sent when they try to use an OmegaWarps command without permission
 No_Permission: "&cSorry, you do not have permission to do that."
+
+# DO NOT EDIT THIS
+Config_Version: 1.0

@@ -75,7 +75,7 @@ public class Warp extends GlobalCommand {
       return;
     }
 
-    if(!Utilities.checkPermissions(player, true, "omegawarps.warp." + warpName, "omegawarps.warp.*", "omegawarps.*")) {
+    if(!Utilities.checkPermissions(player, true, "omegawarps.warp." + warpName.toLowerCase(), "omegawarps.warp.*", "omegawarps.*")) {
       Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
       return;
     }

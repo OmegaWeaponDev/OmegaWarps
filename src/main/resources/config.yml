@@ -7,6 +7,7 @@
 #  to an extent.
 #
 #  You can find all the particle effects here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+#  You can find all the sound effects here: https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
 #
 # -------------------------------------------------------------------------------------------
 
@@ -23,6 +24,12 @@ Warp_Particle_Effects:
   # The particles that happen after the player has warped.
   After_Warp: PORTAL
 
+Sound_Effects:
+  # The sound effect that is played as the player warps
+  Before_Warp_Sound: ENTITY_ENDERMAN_TELEPORT
+  # The sound effect that is played after the player has warped
+  After_Warp_Sound: ENTITY_FOX_TELEPORT
+
 # If permissions should be per warp permissions or a single permission for all warps.
 # If true, use the permissions `omegawarps.warp.<warpname>` OR `omegawarps.warp.*` for all the warps
 # If false, use permission `omegawarps.warps`
@@ -31,3 +38,6 @@ Per_Warp_Permissions: true
 # If set to true, those with the permission omegawarps.update will receive messages
 # when the plugin updates on spigot
 Update_Notify: true
+
+# DO NOT EDIT THIS!
+Config_Version: 1.1

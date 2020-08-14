@@ -26,7 +26,7 @@ public class RemoveWarp extends GlobalCommand {
         return;
       }
 
-      String warpName = strings[0].toLowerCase();
+      String warpName = strings[0];
 
       if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
         Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, that warp does not exist!");
@@ -46,7 +46,7 @@ public class RemoveWarp extends GlobalCommand {
         return;
       }
 
-      String warpName = strings[0].toLowerCase();
+      String warpName = strings[0];
 
       if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
         Utilities.logInfo(true, "Sorry, that warp does not exist!");

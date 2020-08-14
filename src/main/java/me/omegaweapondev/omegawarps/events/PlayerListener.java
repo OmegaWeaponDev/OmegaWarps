@@ -1,7 +1,7 @@
 package me.omegaweapondev.omegawarps.events;
 
 import me.omegaweapondev.omegawarps.OmegaWarps;
-import me.omegaweapondev.omegawarps.UpdateChecker;
+import me.ou.library.SpigotUpdater;
 import me.ou.library.Utilities;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -24,7 +24,7 @@ public class PlayerListener implements Listener {
     }
 
     // Send the player a message on join if there is an update for the plugin
-    new UpdateChecker(OmegaWarps.getInstance(), 74788).getVersion(version -> {
+    new SpigotUpdater(OmegaWarps.getInstance(), 74788).getVersion(version -> {
       if (!OmegaWarps.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
         PluginDescriptionFile pdf = OmegaWarps.getInstance().getDescription();
         Utilities.message(player,
