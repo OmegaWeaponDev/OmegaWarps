@@ -30,7 +30,7 @@ public class PlayerListener implements Listener {
         Utilities.message(player,
           "&bA new version of &c" + pdf.getName() + " &bis avaliable!",
           "&bCurrent Version: &c" + pdf.getVersion() + " &b> New Version: &c" + version,
-          "&bGrab it here:&c https://spigotmc.org/resources/73013"
+          "&bGrab it here:&c https://spigotmc.org/resources/74788"
         );
       }
     });
