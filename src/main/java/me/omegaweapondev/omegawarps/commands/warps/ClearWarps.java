@@ -9,6 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class ClearWarps extends GlobalCommand {
+  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
 
   @Override
   protected void execute(final CommandSender sender, final String[] strings) {
@@ -17,7 +18,7 @@ public class ClearWarps extends GlobalCommand {
       Player player = (Player) sender;
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.clearwarps", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+        Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
         return;
       }
 
@@ -26,7 +27,7 @@ public class ClearWarps extends GlobalCommand {
       }
 
       OmegaWarps.getInstance().getWarpsFile().saveConfig();
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Clear_Warps_Message", "&cYou have deleted all the warps!"));
+      Utilities.message(player, messagesFile.string("Clear_Warps_Message", "&cYou have deleted all the warps!"));
       return;
     }
 

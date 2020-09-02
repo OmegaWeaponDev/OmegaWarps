@@ -18,7 +18,7 @@
   <groupId>me.omegaweapon</groupId>
   <artifactId>omegawarps</artifactId>
   <name>OmegaWarps</name>
-  <version>2.1.4</version>
+  <version>2.1.6</version>
   <description>OmegaWarps lets your players warp around in style.</description>
 
   <!--
@@ -99,7 +99,7 @@
       <artifactId>spigot-api</artifactId>
 
       <!-- Change this to the latest version to stay up to date -->
-      <version>1.16.1-R0.1-SNAPSHOT</version>
+      <version>1.16.2-R0.1-SNAPSHOT</version>
 
       <!--
         The scope indicates if this library should be packaged together with our plugin

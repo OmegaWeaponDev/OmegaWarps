@@ -11,6 +11,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class Warp extends GlobalCommand {
+  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
 
   @Override
   protected void execute(final CommandSender sender, final String[] strings) {
@@ -21,8 +22,8 @@ public class Warp extends GlobalCommand {
 
       if(strings.length == 0) {
         Utilities.message(player,
-          MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&b Warp: &c/warp <warpname> &b- Warp to a specific place.",
-          MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarp Others &c/warp <warpname> <playername> &b- Send another player to a warp location"
+          messagesFile.getPrefix() + "&bWarp: &c/warp <warpname> &b- Warp to a specific place.",
+          messagesFile.getPrefix() + "&bWarp Others &c/warp <warpname> <playername> &b- Send another player to a warp location"
         );
         return;
       }
@@ -47,6 +48,7 @@ public class Warp extends GlobalCommand {
 
       if(strings.length != 2) {
         Utilities.logInfo(true, "Warp Others /warp <warpname> <playername> - Send another player to a warp location");
+        return;
       }
 
       final Player target = Bukkit.getPlayer(strings[1]);
@@ -57,72 +59,74 @@ public class Warp extends GlobalCommand {
   }
 
   private void playerWarp(final Player player, final String warpName) {
+    final Warps warpHandler = new Warps(player, warpName);
 
     if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, that warp does not exist!");
+      Utilities.message(player, messagesFile.string("Invalid_Warp_Name", "&cSorry, that warp does not exist!"));
       return;
     }
 
     if(!OmegaWarps.getInstance().getConfigFile().getConfig().getBoolean("Per_Warp_Permissions")) {
 
-      if(!Utilities.checkPermissions(player, true, "omegawarps.warps", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+      if(!Utilities.checkPermissions(player, true, "omegawarps.warps", "omegawarps.admin")) {
+        Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
         return;
       }
 
-      Warps.beforeWarpEffects(player);
-      Warps.postWarpEffects(player, warpName);
+      warpHandler.beforeWarpEffects();
+      warpHandler.postWarpEffects();
       return;
     }
 
-    if(!Utilities.checkPermissions(player, true, "omegawarps.warp." + warpName.toLowerCase(), "omegawarps.warp.*", "omegawarps.*")) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+    if(!Utilities.checkPermissions(player, true, "omegawarps.warp." + warpName.toLowerCase(), "omegawarps.warp.all", "omegawarps.admin")) {
+      Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
       return;
     }
 
-    Warps.beforeWarpEffects(player);
-    Warps.postWarpEffects(player, warpName);
+    warpHandler.beforeWarpEffects();
+    warpHandler.postWarpEffects();
   }
 
   private void playerWarpOthers(final CommandSender sender, final Player target, final String warpName) {
+    final Warps warpHandler = new Warps(target, warpName);
 
     if(sender instanceof Player) {
       Player player = (Player) sender;
 
       if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, that warp does not exist!");
+        Utilities.message(player, messagesFile.string("Invalid_Warp_Name", "&cSorry, that warp does not exist!"));
         return;
       }
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.warps.others", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+        Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
         return;
       }
 
       if(target == null) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, but that player is either offline or does not exist");
+        Utilities.message(player, messagesFile.string("Invalid_Player", "&cSorry, but no player with that name was found."));
         return;
       }
 
-      Warps.beforeWarpEffects(target);
-      Warps.postWarpEffects(target, warpName);
+      warpHandler.beforeWarpEffects();
+      warpHandler.postWarpEffects();
       return;
     }
 
     if(sender instanceof ConsoleCommandSender) {
 
       if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
-        Utilities.logInfo(true, "Sorry, that warp does not exist!");
+        Utilities.logInfo(true, messagesFile.console("Invalid_Warp_Name", "Sorry, that warp does not exist!"));
         return;
       }
 
       if(target == null) {
-        Utilities.logInfo(true, "Sorry, but that player is either offline or does not exist");
+        Utilities.logInfo(true, messagesFile.console("Invalid_Player", "Sorry, but no player with that name was found."));
         return;
       }
 
-      Warps.beforeWarpEffects(target);
-      Warps.postWarpEffects(target, warpName);
+      warpHandler.beforeWarpEffects();
+      warpHandler.postWarpEffects();
     }
   }
 }

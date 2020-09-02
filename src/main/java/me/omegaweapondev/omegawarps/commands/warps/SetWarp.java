@@ -9,28 +9,31 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class SetWarp extends PlayerCommand {
+  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
 
   @Override
   protected void execute(final Player player, final String[] strings) {
 
-    if(!Utilities.checkPermissions(player, true, "omegawarps.setwarp", "omegawarps.*")) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+    if(!Utilities.checkPermissions(player, true, "omegawarps.setwarp", "omegawarps.admin")) {
+      Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
       return;
     }
 
     if(strings.length == 0) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&b/setwarp <player name> <warp name> - Create a warp for the given player.");
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&b/setwarp <warp name> - Create a warp with no owner set.");
+      Utilities.message(player, messagesFile.getPrefix() + "&b/setwarp <player name> <warp name> - Create a warp for the given player.");
+      Utilities.message(player, messagesFile.getPrefix() + "&b/setwarp <warp name> - Create a warp with no owner set.");
       return;
     }
+
+    final Warps warpHandler = new Warps(player, strings[0]);
 
     if(strings.length == 1) {
-      Warps.createWarp(player, strings[0], player.getLocation());
+      warpHandler.createWarp(player.getLocation());
       return;
     }
 
-    if(!Utilities.checkPermission(player, true,"omegawarps.setwarp.others")) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, you do not have permission to do that."));
+    if(!Utilities.checkPermissions(player, true,"omegawarps.setwarp.others", "omegawarps.admin")) {
+      Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
       return;
     }
 
@@ -39,11 +42,11 @@ public class SetWarp extends PlayerCommand {
       Player warpOwner = Bukkit.getPlayer(warpOwnerName);
 
       if(warpOwner == null) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, that player does not exist or they are offline.");
+        Utilities.message(player, messagesFile.string("Invalid_Player", "&cSorry, but no player with that name was found."));
         return;
       }
 
-      Warps.createWarpOthers(player, Bukkit.getPlayer(strings[0]), strings[1], player.getLocation(), OmegaWarps.getInstance().getConfigFile().getConfig().getDouble("Warp_Cost.Cost"));
+      warpHandler.createWarpOthers(Bukkit.getPlayer(strings[0]), player.getLocation(), OmegaWarps.getInstance().getConfigFile().getConfig().getDouble("Warp_Cost.Cost"));
     }
   }
 }

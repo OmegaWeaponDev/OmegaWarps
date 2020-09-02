@@ -11,21 +11,30 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Warps {
-  private static final FileConfiguration warpsConfigFile = OmegaWarps.getInstance().getWarpsFile().getConfig();
+  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
+  private final FileConfiguration warpsFile = OmegaWarps.getInstance().getWarpsFile().getConfig();
 
-  private static void getWarpLocation(final Player player, final String warpName) {
+  private final Player player;
+  private final String warpName;
 
-    if(!warpsConfigFile.isSet(warpName)) {
+  public Warps(final Player player, final String warpName) {
+    this.player = player;
+    this.warpName = warpName;
+  }
+
+  public void getWarpLocation() {
+
+    if(!warpsFile.isSet(warpName)) {
       return;
     }
 
-    double warpLocationX = warpsConfigFile.getDouble(warpName + ".Warp Location.X");
-    double warpLocationY = warpsConfigFile.getDouble(warpName + ".Warp Location.Y");
-    double warpLocationZ = warpsConfigFile.getDouble(warpName + ".Warp Location.Z");
-    float warpLocationYaw = (float) warpsConfigFile.getDouble(warpName + ".Warp Location.Yaw");
-    float warpLocationPitch = (float) warpsConfigFile.getDouble(warpName + ".Warp Location.Pitch");
+    double warpLocationX = warpsFile.getDouble(warpName + ".Warp Location.X");
+    double warpLocationY = warpsFile.getDouble(warpName + ".Warp Location.Y");
+    double warpLocationZ = warpsFile.getDouble(warpName + ".Warp Location.Z");
+    float warpLocationYaw = (float) warpsFile.getDouble(warpName + ".Warp Location.Yaw");
+    float warpLocationPitch = (float) warpsFile.getDouble(warpName + ".Warp Location.Pitch");
 
-    String world = warpsConfigFile.getString(warpName + ".Warp Location.World");
+    String world = warpsFile.getString(warpName + ".Warp Location.World");
     World warpLocationWorld = Bukkit.getServer().getWorld(world);
 
     if(warpLocationWorld == null) {
@@ -36,82 +45,82 @@ public class Warps {
     player.teleport(warpLocation);
   }
 
-  public static void createWarp(final Player player, final String warpName, final Location warpLocation) {
+  public void createWarp(final Location warpLocation) {
 
-    if(warpsConfigFile.isSet(warpName)) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, but that warp already exists");
+    if(warpsFile.isSet(warpName)) {
+      Utilities.message(player, messagesFile.string("Warp_Already_Exists", "&cSorry, but that warp already exists"));
       return;
     }
 
-    warpsConfigFile.createSection(warpName);
-    warpsConfigFile.set(warpName + ".Set By", player.getName());
-    warpsConfigFile.set(warpName + ".Time Set", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
-    warpsConfigFile.set(warpName + ".Warp Location.World", player.getWorld().getName());
-    warpsConfigFile.set(warpName + ".Warp Location.X", warpLocation.getX());
-    warpsConfigFile.set(warpName + ".Warp Location.Y", warpLocation.getY());
-    warpsConfigFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
-    warpsConfigFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
-    warpsConfigFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
+    warpsFile.createSection(warpName);
+    warpsFile.set(warpName + ".Set By", player.getName());
+    warpsFile.set(warpName + ".Time Set", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+    warpsFile.set(warpName + ".Warp Location.World", player.getWorld().getName());
+    warpsFile.set(warpName + ".Warp Location.X", warpLocation.getX());
+    warpsFile.set(warpName + ".Warp Location.Y", warpLocation.getY());
+    warpsFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
+    warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
+    warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
 
     OmegaWarps.getInstance().getWarpsFile().saveConfig();
 
-    Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Setwarp_Message.Without_Owner", "&bYou have created the warp %warpName%").replace("%warpName%", warpName));
+    Utilities.message(player, messagesFile.string("Setwarp_Message.Without_Owner", "&bYou have created the warp %warpName%.").replace("%warpName%", warpName));
   }
 
-  public static void createWarpOthers(final Player player, final Player target, final String warpName, final Location warpLocation, final Double warpCost) {
+  public void createWarpOthers(final Player target, final Location warpLocation, final Double warpCost) {
 
-    if(warpsConfigFile.isSet(warpName)) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, but that warp already exists");
+    if(warpsFile.isSet(warpName)) {
+      Utilities.message(player, messagesFile.string("Warp_Already_Exists", "&cSorry, but that warp already exists"));
       return;
     }
 
     if(!OmegaWarps.getInstance().getConfigFile().getConfig().getBoolean("Warp_Cost.Enabled") || !Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 
-      warpsConfigFile.createSection(warpName);
-      warpsConfigFile.set(warpName + ".Set By", player.getName());
-      warpsConfigFile.set(warpName + ".Set For", target.getName());
-      warpsConfigFile.set(warpName + ".Time Set", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
-      warpsConfigFile.set(warpName + ".Warp Location.World", player.getWorld().getName());
-      warpsConfigFile.set(warpName + ".Warp Location.X", warpLocation.getX());
-      warpsConfigFile.set(warpName + ".Warp Location.Y", warpLocation.getY());
-      warpsConfigFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
-      warpsConfigFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
-      warpsConfigFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
+      warpsFile.createSection(warpName);
+      warpsFile.set(warpName + ".Set By", player.getName());
+      warpsFile.set(warpName + ".Set For", target.getName());
+      warpsFile.set(warpName + ".Time Set", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+      warpsFile.set(warpName + ".Warp Location.World", player.getWorld().getName());
+      warpsFile.set(warpName + ".Warp Location.X", warpLocation.getX());
+      warpsFile.set(warpName + ".Warp Location.Y", warpLocation.getY());
+      warpsFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
+      warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
+      warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
 
       OmegaWarps.getInstance().getWarpsFile().saveConfig();
 
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
+      Utilities.message(player, messagesFile.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
       return;
     }
 
-    if(!Utilities.checkPermissions(target, true,"omegawarps.cost.bypass", "omegawarps.*")) {
+    if(!Utilities.checkPermissions(target, true,"omegawarps.cost.bypass", "omegawarps.admin")) {
       double warpOwnerBalance = OmegaWarps.getInstance().getEconomy().getBalance(target);
 
       if(warpOwnerBalance < warpCost) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bThe player " + target.getName() + " does not have enough money to pay for the warp.");
+        Utilities.message(player, messagesFile.string("Payment_Failed", "&bThe player %player% does not have enough money to pay for the warp.").replace("%player%", target.getName()));
         return;
       }
 
-      warpsConfigFile.createSection(warpName);
-      warpsConfigFile.set(warpName + ".Set By", player.getName());
-      warpsConfigFile.set(warpName + ".Set For", target.getName());
-      warpsConfigFile.set(warpName + ".Time Set", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
-      warpsConfigFile.set(warpName + ".Warp Location.World", player.getWorld().getName());
-      warpsConfigFile.set(warpName + ".Warp Location.X", warpLocation.getX());
-      warpsConfigFile.set(warpName + ".Warp Location.Y", warpLocation.getY());
-      warpsConfigFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
-      warpsConfigFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
-      warpsConfigFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
+      warpsFile.createSection(warpName);
+      warpsFile.set(warpName + ".Set By", player.getName());
+      warpsFile.set(warpName + ".Set For", target.getName());
+      warpsFile.set(warpName + ".Time Set", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+      warpsFile.set(warpName + ".Warp Location.World", player.getWorld().getName());
+      warpsFile.set(warpName + ".Warp Location.X", warpLocation.getX());
+      warpsFile.set(warpName + ".Warp Location.Y", warpLocation.getY());
+      warpsFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
+      warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
+      warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
       OmegaWarps.getInstance().getWarpsFile().saveConfig();
 
       OmegaWarps.getInstance().getEconomy().withdrawPlayer(target, warpCost);
 
-      Utilities.message(target, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Warp_Cost_Taken", "&bThe amount of price &c$%warpCost% &bhas been taken from your account for the warp.").replace("%warpCost%", warpCost.toString()));
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
+      Utilities.message(target, messagesFile.string("Warp_Cost_Taken", "&bThe amount of price &c$%warpCost% &bhas been taken from your account for the warp.").replace("%warpCost%", warpCost.toString()));
+      Utilities.message(player, messagesFile.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
     }
   }
 
-  public static void beforeWarpEffects(final Player player) {
+  public void beforeWarpEffects() {
     player.playSound(player.getLocation(), Sound.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Sound_Effects.Before_Warp_Sound")), 1, 1);
     player.spawnParticle(
       Particle.valueOf(
@@ -122,10 +131,10 @@ public class Warps {
     );
   }
 
-  public static void postWarpEffects(final Player player, final String warpName) {
+  public void postWarpEffects() {
 
-    if(!warpsConfigFile.isSet(warpName)) {
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&cSorry, but that warp does not exist.");
+    if(!warpsFile.isSet(warpName)) {
+      Utilities.message(player, messagesFile.string("Invalid_Warp_Name", "&cSorry, that warp does not exist."));
       return;
     }
 
@@ -133,8 +142,8 @@ public class Warps {
 
       @Override
       public void run() {
-        getWarpLocation(player, warpName);
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Warp_Message", "&cYou have warped to %warpName%").replace("%warpName%", warpName).replace("%player%", player.getDisplayName()));
+        getWarpLocation();
+        Utilities.message(player, messagesFile.string("Warp_Message", "&cYou have warped to %warpName%").replace("%warpName%", warpName).replace("%player%", player.getDisplayName()));
         player.spawnParticle(Particle.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Warp_Particle_Effects.After_Warp")), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 50);
         player.playSound(player.getLocation(), Sound.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Sound_Effects.After_Warp_Sound")), 1, 1);
       }

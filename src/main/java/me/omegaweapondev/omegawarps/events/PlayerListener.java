@@ -12,14 +12,14 @@ import org.bukkit.plugin.PluginDescriptionFile;
 public class PlayerListener implements Listener {
   
   @EventHandler
-  public static void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
+  public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
     Player player = playerJoinEvent.getPlayer();
 
     if(!OmegaWarps.getInstance().getConfigFile().getConfig().getBoolean("Update_Notify")) {
       return;
     }
 
-    if(!Utilities.checkPermissions(player, true, "omegawarps.update", "omegawarps.*")) {
+    if(!Utilities.checkPermissions(player, true, "omegawarps.update", "omegawarps.admin")) {
       return;
     }
 

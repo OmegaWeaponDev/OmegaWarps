@@ -9,6 +9,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class MainCommand extends GlobalCommand {
+  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
 
   @Override
   protected void execute(final CommandSender sender, final String[] strings) {
@@ -39,8 +40,8 @@ public class MainCommand extends GlobalCommand {
       Player player = (Player) sender;
 
       Utilities.message(player,
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + " &bOmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&c/omegawarps help &bto display all the commands"
+        messagesFile.getPrefix() + "&bOmegaWarps &cv" + OmegaWarps.getInstance().getDescription().getVersion() + " &bBy OmegaWeaponDev",
+        messagesFile.getPrefix() + "&c/omegawarps help &bto display all the commands"
       );
       return;
     }
@@ -48,7 +49,7 @@ public class MainCommand extends GlobalCommand {
     if(sender instanceof ConsoleCommandSender) {
       Utilities.logInfo(true,
         "OmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
-        "&c/omegawarps help &bto display all the commands"
+        "/omegawarps help to display all the commands"
       );
     }
   }
@@ -58,18 +59,18 @@ public class MainCommand extends GlobalCommand {
       Player player = (Player) sender;
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.reload", "omegawarps.*")) {
-        Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("No_Permission", "&cSorry, but you do not have permission to use this command."));
+        Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, but you do not have permission to use this command."));
         return;
       }
 
       OmegaWarps.getInstance().onReload();
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + MessageHandler.playerMessage("Reload_Message", "&bOmegaWarps has successfully been reloaded"));
+      Utilities.message(player, messagesFile.string("Reload_Message", "&bOmegaWarps has successfully been reloaded"));
       return;
     }
 
     if(sender instanceof ConsoleCommandSender) {
       OmegaWarps.getInstance().onReload();
-      Utilities.logInfo(true, MessageHandler.consoleMessage("Reload_Message", "OmegaWarps has successfully been reloaded"));
+      Utilities.logInfo(true, messagesFile.console("Reload_Message", "OmegaWarps has successfully been reloaded"));
     }
   }
 
@@ -77,7 +78,7 @@ public class MainCommand extends GlobalCommand {
     if(sender instanceof Player) {
       Player player = (Player) sender;
 
-      Utilities.message(player, MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "OmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev");
+      Utilities.message(player, messagesFile.getPrefix() + "&bOmegaWarps &cv" + OmegaWarps.getInstance().getDescription().getVersion() + " &bBy OmegaWeaponDev");
       return;
     }
 
@@ -91,16 +92,18 @@ public class MainCommand extends GlobalCommand {
       Player player = (Player) sender;
 
       Utilities.message(player,
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + " &bOmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bReload Command: &c/omegawarps reload",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bVersion Command: &c/omegawarps version",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bSetWarp command: &c/setwarp <player> <warp> &b& &c/setwarp <warp>",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarpList command: &c/listwarps",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bRemoveWarp command: &c/delwarp <warp>",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarpCheck command: &c/checkwarp <warp>",
-        MessageHandler.playerMessage("Prefix", "&7&l[&aOmegaWarps&7&l]") + "&bWarp command: &c/warp <warp>"
+        messagesFile.getPrefix() + " &bOmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
+        messagesFile.getPrefix() + "&bReload Command: &c/omegawarps reload",
+        messagesFile.getPrefix() + "&bVersion Command: &c/omegawarps version",
+        messagesFile.getPrefix() + "&bSetWarp command: &c/setwarp <player> <warp> &b& &c/setwarp <warp>",
+        messagesFile.getPrefix() + "&bWarpList command: &c/listwarps",
+        messagesFile.getPrefix() + "&bRemoveWarp command: &c/delwarp <warp>",
+        messagesFile.getPrefix() + "&bWarpCheck command: &c/checkwarp <warp>",
+        messagesFile.getPrefix() + "&bWarp command: &c/warp <warp>"
       );
-    } else {
+    }
+
+    if(sender instanceof ConsoleCommandSender) {
       Utilities.logInfo(true,
         " OmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
         "Reload Command: /omegawarps reload",
@@ -113,5 +116,4 @@ public class MainCommand extends GlobalCommand {
       );
     }
   }
-
 }

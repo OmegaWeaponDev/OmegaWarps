@@ -14,30 +14,43 @@
 # Set the plugin's prefix to display before all the in-game messages.
 Prefix: "&7&l[&aOmegaWarps&7&l]"
 
-# Set the message that players get when they create a warp
+# Set the message that players get when they create a warp.
 Setwarp_Message:
-  # Set the message for warps that are created with an owner
+  # Set the message for warps that are created with an owner.
   With_Owner: "&bYou have created the warp %warpName% for %warpOwner%!"
-  # Set the message for warps that are created without an owner
-  Without_Owner: "&bYou have created the warp %warpName%"
+  # Set the message for warps that are created without an owner.
+  Without_Owner: "&bYou have created the warp %warpName%."
 
-# Set the message players receive when the warp cost is taken
+# Set the message players receive when the warp cost is taken.
 Warp_Cost_Taken: "&bThe amount of price &c$%warpCost% &bhas been taken from your account for the warp."
 
-# Set the message that players get when they delete a warp
-Remove_Warp_Message: "&bYou have successfully deleted the warp %warpName%"
+# Set the message that players get when they delete a warp.
+Remove_Warp_Message: "&bYou have successfully deleted the warp %warpName%."
 
-# Set the message that players get when they delete all warps
+# Set the message that players get when they delete all warps.
 Clear_Warps_Message: "&cYou have deleted all the warps!"
 
+# Set the message that players get if a warp already exists.
+Warp_Already_Exists: "&cSorry, but that warp already exists."
+
+# Set the message players get when they try using a warp that does not exist.
+Invalid_Warp_Name: "&cSorry, that warp does not exist."
+
+# Set the message that players get if they don't have enough money to pay for the warp.
+# Use %player% to get the players name.
+Payment_Failed: "&bThe player %player% does not have enough money to pay for the warp."
+
 # Set the message players receive when they warp somewhere.
-Warp_Message: "&cYou have warped to %warpName%"
+Warp_Message: "&cYou have warped to %warpName%."
 
-# Set the message players receive when they reload the plugin
-Reload_Message: "&bOmegaWarps has successfully been reloaded"
+# Set the message players receive when they reload the plugin.
+Reload_Message: "&bOmegaWarps has successfully been reloaded."
 
-# Set the message players are sent when they try to use an OmegaWarps command without permission
+# Set the message players receive if they try and teleport a player that isn't online
+Invalid_Player: "&cSorry, but no player with that name was found."
+
+# Set the message players are sent when they try to use an OmegaWarps command without permission.
 No_Permission: "&cSorry, you do not have permission to do that."
 
-# DO NOT EDIT THIS
-Config_Version: 1.0
+# DO NOT EDIT THIS!
+Config_Version: 1.1

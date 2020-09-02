@@ -39,7 +39,7 @@ commands:
     usage: /clearwarps
 
 permissions:
-  omegawarps.*:
+  omegawarps.admin:
     default: false
     description: Grants access to all the commands
     children:

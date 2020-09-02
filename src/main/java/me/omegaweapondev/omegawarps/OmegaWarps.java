@@ -89,8 +89,8 @@ public class OmegaWarps extends JavaPlugin {
         ConfigUpdater.update(OmegaWarps.getInstance(), "config.yml", getConfigFile().getFile(), Arrays.asList("none"));
       }
 
-      if(getMessagesFile().getConfig().getDouble("Config_Version") != 1.0) {
-        getMessagesFile().getConfig().set("Config_Version", 1.0);
+      if(getMessagesFile().getConfig().getDouble("Config_Version") != 1.1) {
+        getMessagesFile().getConfig().set("Config_Version", 1.1);
         getMessagesFile().saveConfig();
         ConfigUpdater.update(OmegaWarps.getInstance(), "messages.yml", getMessagesFile().getFile(), Arrays.asList("none"));
       }
