@@ -1,5 +1,6 @@
 package me.omegaweapondev.omegawarps;
 
+import me.omegaweapondev.omegawarps.commands.DebugCommand;
 import me.omegaweapondev.omegawarps.commands.MainCommand;
 import me.omegaweapondev.omegawarps.commands.warps.*;
 import me.omegaweapondev.omegawarps.events.PlayerListener;
@@ -18,7 +19,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class OmegaWarps extends JavaPlugin {
-  public static OmegaWarps instance;
+  private OmegaWarps plugin;
   private Economy econ = null;
 
   private final ConfigCreator configFile = new ConfigCreator("config.yml");
@@ -27,6 +28,8 @@ public class OmegaWarps extends JavaPlugin {
   
   @Override
   public void onEnable() {
+    plugin = this;
+
     initialSetup();
     setupConfigs();
     configUpdater();
@@ -38,7 +41,6 @@ public class OmegaWarps extends JavaPlugin {
   
   @Override
   public void onDisable() {
-    instance = null;
     super.onDisable();
   }
   
@@ -49,9 +51,6 @@ public class OmegaWarps extends JavaPlugin {
   }
 
   private void initialSetup() {
-
-    // Setup the instance for plugin and OU Library
-    instance = this;
     Utilities.setInstance(this);
 
     // Make sure vault is installed
@@ -59,21 +58,21 @@ public class OmegaWarps extends JavaPlugin {
       Utilities.logWarning(true,
         "OmegaWarps require vault to be installed if you want to use the Warp Cost feature",
         "To install vault, please go to https://www.spigotmc.org/resources/vault.34315/ and download it.",
-        "Once vault is installed, restart the server and OmegaFormatter will work."
+        "Once vault is installed, restart the server and OmegaWarps will work."
       );
     }
 
     // Setup bStats
     final int bstatsPluginId = 7492;
-    Metrics metrics = new Metrics(getInstance(), bstatsPluginId);
+    Metrics metrics = new Metrics(plugin, bstatsPluginId);
 
     // Logs a message to console, saying that the plugin has enabled correctly.
     Utilities.logInfo(true,
       " _____ _    _",
       "|  _  | |  | |",
-      "| | | | |  | |  OmegaWarps v" + OmegaWarps.getInstance().getDescription().getVersion() + " By OmegaWeaponDev",
+      "| | | | |  | |  OmegaWarps v" + plugin.getDescription().getVersion() + " By OmegaWeaponDev",
       "| | | | |/\\| |  Take full control of the warping done on your server!",
-      "\\ \\_/ |  /\\  /  Currently supporting Spigot 1.13 - 1.16.1",
+      "\\ \\_/ |  /\\  /  Currently supporting Spigot 1.13 - 1.16.5",
       " \\___/ \\/  \\/",
       ""
     );
@@ -86,13 +85,13 @@ public class OmegaWarps extends JavaPlugin {
       if(getConfigFile().getConfig().getDouble("Config_Version") != 1.1) {
         getConfigFile().getConfig().set("Config_Version", 1.1);
         getConfigFile().saveConfig();
-        ConfigUpdater.update(OmegaWarps.getInstance(), "config.yml", getConfigFile().getFile(), Arrays.asList("none"));
+        ConfigUpdater.update(plugin, "config.yml", getConfigFile().getFile(), Arrays.asList("none"));
       }
 
       if(getMessagesFile().getConfig().getDouble("Config_Version") != 1.1) {
         getMessagesFile().getConfig().set("Config_Version", 1.1);
         getMessagesFile().saveConfig();
-        ConfigUpdater.update(OmegaWarps.getInstance(), "messages.yml", getMessagesFile().getFile(), Arrays.asList("none"));
+        ConfigUpdater.update(plugin, "messages.yml", getMessagesFile().getFile(), Arrays.asList("none"));
       }
       onReload();
       Utilities.logInfo(true, "Config Files have successfully been updated!");
@@ -124,13 +123,14 @@ public class OmegaWarps extends JavaPlugin {
     // Register the commands
     Utilities.logInfo(true, "Registering Commands...");
 
-    Utilities.setCommand().put("omegawarps", new MainCommand());
-    Utilities.setCommand().put("setwarp", new SetWarp());
-    Utilities.setCommand().put("delwarp", new RemoveWarp());
-    Utilities.setCommand().put("warp", new Warp());
-    Utilities.setCommand().put("checkwarp", new WarpCheck());
-    Utilities.setCommand().put("listwarps", new WarpList());
-    Utilities.setCommand().put("clearwarps", new ClearWarps());
+    Utilities.setCommand().put("omegawarps", new MainCommand(plugin));
+    Utilities.setCommand().put("setwarp", new SetWarp(plugin));
+    Utilities.setCommand().put("delwarp", new RemoveWarp(plugin));
+    Utilities.setCommand().put("warp", new Warp(plugin));
+    Utilities.setCommand().put("checkwarp", new WarpCheck(plugin));
+    Utilities.setCommand().put("listwarps", new WarpList(plugin));
+    Utilities.setCommand().put("clearwarps", new ClearWarps(plugin));
+    Utilities.setCommand().put("omegawarpsdebug", new DebugCommand(plugin));
 
     Utilities.registerCommands();
     Utilities.logInfo(true, "Commands Registered: " + Utilities.setCommand().size());
@@ -138,21 +138,26 @@ public class OmegaWarps extends JavaPlugin {
 
   private void setupEvents() {
     // Register the events
-    Utilities.registerEvent(new PlayerListener());
+    Utilities.registerEvent(new PlayerListener(plugin));
   }
 
   private void spigotUpdater() {
-    new SpigotUpdater(this, 74788).getVersion(version -> {
-      if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
+    // The Updater
+    new SpigotUpdater(plugin, 78327).getVersion(version -> {
+      int spigotVersion = Integer.parseInt(version.replace(".", ""));
+      int pluginVersion = Integer.parseInt(plugin.getDescription().getVersion().replace(".", ""));
+
+      if(pluginVersion >= spigotVersion) {
         Utilities.logInfo(true, "You are already running the latest version");
-      } else {
-        PluginDescriptionFile pdf = this.getDescription();
-        Utilities.logWarning(true,
-          "A new version of " + pdf.getName() + " is avaliable!",
-          "Current Version: " + pdf.getVersion() + " > New Version: " + version,
-          "Grab it here: https://spigotmc.org/resources/74788"
-        );
+        return;
       }
+
+      PluginDescriptionFile pdf = plugin.getDescription();
+      Utilities.logWarning(true,
+        "A new version of " + pdf.getName() + " is avaliable!",
+        "Current Version: " + pdf.getVersion() + " > New Version: " + version,
+        "Grab it here: https://www.spigotmc.org/resources/omegawarps.74788/"
+      );
     });
   }
 
@@ -184,9 +189,5 @@ public class OmegaWarps extends JavaPlugin {
   
   public Economy getEconomy() {
     return econ;
-  }
-  
-  public static OmegaWarps getInstance() {
-    return instance;
   }
 }

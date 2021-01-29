@@ -9,7 +9,13 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class ClearWarps extends GlobalCommand {
-  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
+  private final OmegaWarps plugin;
+  private final MessageHandler messageHandler;
+
+  public ClearWarps(final OmegaWarps plugin) {
+    this.plugin = plugin;
+    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+  }
 
   @Override
   protected void execute(final CommandSender sender, final String[] strings) {
@@ -17,26 +23,26 @@ public class ClearWarps extends GlobalCommand {
     if(sender instanceof Player) {
       Player player = (Player) sender;
 
-      if(!Utilities.checkPermissions(player, true, "omegawarps.clearwarps", "omegawarps.*")) {
-        Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
+      if(!Utilities.checkPermissions(player, true, "omegawarps.clearwarps", "omegawarps.admin")) {
+        Utilities.message(player, messageHandler.string("No_Permission", "#ff4a4aSorry, you do not have permission to do that."));
         return;
       }
 
-      for(String warpName : OmegaWarps.getInstance().getWarpsFile().getConfig().getKeys(false)) {
-        OmegaWarps.getInstance().getWarpsFile().getConfig().set(warpName, null);
+      for(String warpName : plugin.getWarpsFile().getConfig().getKeys(false)) {
+        plugin.getWarpsFile().getConfig().set(warpName, null);
       }
 
-      OmegaWarps.getInstance().getWarpsFile().saveConfig();
-      Utilities.message(player, messagesFile.string("Clear_Warps_Message", "&cYou have deleted all the warps!"));
+      plugin.getWarpsFile().saveConfig();
+      Utilities.message(player, messageHandler.string("Clear_Warps_Message", "#ff4a4aYou have deleted all the warps!"));
       return;
     }
 
     if(sender instanceof ConsoleCommandSender) {
-      for(String warpName : OmegaWarps.getInstance().getWarpsFile().getConfig().getKeys(false)) {
-        OmegaWarps.getInstance().getWarpsFile().getConfig().set(warpName, null);
+      for(String warpName : plugin.getWarpsFile().getConfig().getKeys(false)) {
+        plugin.getWarpsFile().getConfig().set(warpName, null);
       }
 
-      OmegaWarps.getInstance().getWarpsFile().saveConfig();
+      plugin.getWarpsFile().saveConfig();
       Utilities.logInfo(true, "All warps have successfully been deleted.");
     }
   }

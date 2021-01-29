@@ -15,10 +15,10 @@
 
     The Version is current version of your plugin. You want to update this continuously.
   -->
-  <groupId>me.omegaweapon</groupId>
+  <groupId>me.omegaweapondev</groupId>
   <artifactId>omegawarps</artifactId>
   <name>OmegaWarps</name>
-  <version>2.1.6</version>
+  <version>2.2.0</version>
   <description>OmegaWarps lets your players warp around in style.</description>
 
   <!--
@@ -46,7 +46,7 @@
     <pl.apiver>1.13</pl.apiver>
 
     <!-- The Java version your plugin uses, see bstats.org for what most servers have and use that -->
-    <java.version>1.8</java.version>
+    <java.version>11.0</java.version>
 
     <!-- How letters in your code should be saved on your disk, leave to UTF-8 to support all languages -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -99,7 +99,7 @@
       <artifactId>spigot-api</artifactId>
 
       <!-- Change this to the latest version to stay up to date -->
-      <version>1.16.2-R0.1-SNAPSHOT</version>
+      <version>1.16.5-R0.1-SNAPSHOT</version>
 
       <!--
         The scope indicates if this library should be packaged together with our plugin
@@ -113,7 +113,7 @@
 
     <!--
       This is where we will add the library to the project. Uses the same process as the above.
-      If you followed the cloning tutorial exactly, the below details should be the same.
+      If you followed the cloning tutorial exactly, the below de tails should be the same.
 
       This will use the jar file that is located in the .m2 folder in your local Maven repo.
     -->

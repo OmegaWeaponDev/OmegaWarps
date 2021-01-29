@@ -10,12 +10,17 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 
 public class PlayerListener implements Listener {
+  private final OmegaWarps plugin;
+
+  public PlayerListener(final OmegaWarps plugin) {
+    this.plugin = plugin;
+  }
   
   @EventHandler
   public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
     Player player = playerJoinEvent.getPlayer();
 
-    if(!OmegaWarps.getInstance().getConfigFile().getConfig().getBoolean("Update_Notify")) {
+    if(!plugin.getConfigFile().getConfig().getBoolean("Update_Notify")) {
       return;
     }
 
@@ -24,15 +29,21 @@ public class PlayerListener implements Listener {
     }
 
     // Send the player a message on join if there is an update for the plugin
-    new SpigotUpdater(OmegaWarps.getInstance(), 74788).getVersion(version -> {
-      if (!OmegaWarps.getInstance().getDescription().getVersion().equalsIgnoreCase(version)) {
-        PluginDescriptionFile pdf = OmegaWarps.getInstance().getDescription();
-        Utilities.message(player,
-          "&bA new version of &c" + pdf.getName() + " &bis avaliable!",
-          "&bCurrent Version: &c" + pdf.getVersion() + " &b> New Version: &c" + version,
-          "&bGrab it here:&c https://spigotmc.org/resources/74788"
-        );
+    // The Updater
+    new SpigotUpdater(plugin, 78327).getVersion(version -> {
+      int spigotVersion = Integer.parseInt(version.replace(".", ""));
+      int pluginVersion = Integer.parseInt(plugin.getDescription().getVersion().replace(".", ""));
+
+      if(pluginVersion >= spigotVersion) {
+        return;
       }
+
+      PluginDescriptionFile pdf = plugin.getDescription();
+      Utilities.message(player,
+        "#14abc9A new version of #ff4a4a" + pdf.getName() + " #14abc9is avaliable!",
+        "#14abc9Current Version: #ff4a4a" + pdf.getVersion() + " #14abc9> New Version: #ff4a4a" + version,
+        "#14abc9Grab it here: #ff4a4ahttps://www.spigotmc.org/resources/omegawarps.74788/"
+      );
     });
   }
 }

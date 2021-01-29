@@ -8,26 +8,33 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class WarpCheck extends PlayerCommand {
-  private final FileConfiguration warpConfigFile = OmegaWarps.getInstance().getWarpsFile().getConfig();
-  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
+  private final OmegaWarps plugin;
+  private final FileConfiguration warpConfigFile;
+  private final MessageHandler messageHandler;
+  
+  public WarpCheck(final OmegaWarps plugin) {
+    this.plugin = plugin;
+    warpConfigFile = plugin.getWarpsFile().getConfig();
+    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+  }
 
   @Override
   protected void execute(final Player player, final String[] strings) {
 
     if(!Utilities.checkPermissions(player, true, "omegawarps.checkwarp", "omegawarps.admin")) {
-      Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
+      Utilities.message(player, messageHandler.string("No_Permission", "#ff4a4aSorry, you do not have permission to do that."));
       return;
     }
 
     if(strings.length == 0) {
-      Utilities.message(player, messagesFile.getPrefix() + "&b/checkwarp <warp name> - View the information about a specific warp");
+      Utilities.message(player, messageHandler.getPrefix() + "#14abc9/checkwarp <warp name> - View the information about a specific warp");
       return;
     }
 
     String warpName = strings[0];
 
-    if(!OmegaWarps.getInstance().getWarpsFile().getConfig().isSet(warpName)) {
-      Utilities.message(player, messagesFile.string("Invalid_Warp_Name", "&cSorry, that warp does not exist."));
+    if(!plugin.getWarpsFile().getConfig().isSet(warpName)) {
+      Utilities.message(player, messageHandler.string("Invalid_Warp_Name", "#ff4a4aSorry, that warp does not exist."));
       return;
     }
 
@@ -37,27 +44,26 @@ public class WarpCheck extends PlayerCommand {
 
     if(warpOwner != null) {
       Utilities.message(player,
-        messagesFile.getPrefix()  + "&bWarp Name: &c" + warpName,
-        messagesFile.getPrefix() + "&bSet By: &c" + warpCreator,
-        messagesFile.getPrefix() + "&bSet For: &c" + warpOwner,
-        messagesFile.getPrefix() + "&bTime Set: &c" + timeSet,
-        messagesFile.getPrefix() + "&bWorld: &c" + warpConfigFile.getString(warpName + ".Warp Location.World"),
-        messagesFile.getPrefix() + "&bLocation X: &c" + warpConfigFile.getString(warpName + ".Warp Location.X"),
-        messagesFile.getPrefix() + "&bLocation Y: &c" + warpConfigFile.getString(warpName + ".Warp Location.Y"),
-        messagesFile.getPrefix() + "&bLocation Z: &c" + warpConfigFile.getString(warpName + ".Warp Location.Z")
+        messageHandler.getPrefix()  + "#14abc9Warp Name: #ff4a4a" + warpName,
+        messageHandler.getPrefix() + "#14abc9Set By: #ff4a4a" + warpCreator,
+        messageHandler.getPrefix() + "#14abc9Set For: #ff4a4a" + warpOwner,
+        messageHandler.getPrefix() + "#14abc9Time Set: #ff4a4a" + timeSet,
+        messageHandler.getPrefix() + "#14abc9World: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.World"),
+        messageHandler.getPrefix() + "#14abc9Location X: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.X"),
+        messageHandler.getPrefix() + "#14abc9Location Y: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.Y"),
+        messageHandler.getPrefix() + "#14abc9Location Z: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.Z")
       );
       return;
     }
 
     Utilities.message(player,
-      messagesFile.getPrefix() + "&bWarp Name: &c" + warpName,
-      messagesFile.getPrefix() + "&bSet By: &c" + warpCreator,
-      messagesFile.getPrefix() + "&bTime Set: &c" + timeSet,
-      messagesFile.getPrefix() + "&bWorld: &c" + warpConfigFile.getString(warpName + ".Warp Location.World"),
-      messagesFile.getPrefix() + "&bLocation X: &c" + warpConfigFile.getString(warpName + ".Warp Location.X"),
-      messagesFile.getPrefix() + "&bLocation Y: &c" + warpConfigFile.getString(warpName + ".Warp Location.Y"),
-      messagesFile.getPrefix() + "&bLocation Z: &c" + warpConfigFile.getString(warpName + ".Warp Location.Z")
+      messageHandler.getPrefix() + "#14abc9Warp Name: #ff4a4a" + warpName,
+      messageHandler.getPrefix() + "#14abc9Set By: #ff4a4a" + warpCreator,
+      messageHandler.getPrefix() + "#14abc9Time Set: #ff4a4a" + timeSet,
+      messageHandler.getPrefix() + "#14abc9World: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.World"),
+      messageHandler.getPrefix() + "#14abc9Location X: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.X"),
+      messageHandler.getPrefix() + "#14abc9Location Y: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.Y"),
+      messageHandler.getPrefix() + "#14abc9Location Z: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.Z")
     );
   }
-
 }

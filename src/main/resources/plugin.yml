@@ -13,30 +13,26 @@ softdepend:
 commands:
   omegawarps:
     description: Main command for the plugin
-    usage: /omegawarps
     aliases: [ow, owarps]
   delwarp:
     description: Command to delete warps
-    usage: /delwarp <warpname>
     aliases: [deletewarp, removewarp, destorywarp]
   setwarp:
     description: Command to set warps
-    usage: /setwarp <playername> <warp name>
     aliases: [createwarp, makewarp, addwarp]
   warp:
     description: Command to use the warps
-    usage: /warp <name>
   checkwarp:
     description: Command to check the warp details
-    usage: /checkwarp <warpname>
     aliases: [warpinfo, infowarp, warpcheck]
   listwarps:
     description: Command to list all the warps
-    usage: /listwarps
     aliases: [warpslist, warps]
   clearwarps:
     description: Command to delete all the warps
-    usage: /clearwarps
+  omegawarpsdebug:
+    description: Command to view debug information
+    aliases: [owdebug, warpsdebug, debugwarps]
 
 permissions:
   omegawarps.admin:
@@ -53,6 +49,7 @@ permissions:
       - omegawarps.listwarps
       - omegawarps.cost.bypass
       - omegawarps.clearwarps
+      - omegawarps.debug
   omegawarps.reload:
     default: false
     description: Grants access to the reload command
@@ -83,3 +80,6 @@ permissions:
   omegawarps.clearwarps:
     default: false
     description: Grants access to the clearwarps command
+  omegawarps.debug:
+    default: false
+    description: Grants access to the debug command

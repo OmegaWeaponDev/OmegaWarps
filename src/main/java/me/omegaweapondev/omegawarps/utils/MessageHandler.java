@@ -2,18 +2,17 @@ package me.omegaweapondev.omegawarps.utils;
 
 import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.ou.library.Utilities;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.List;
-
 public class MessageHandler {
+  private final OmegaWarps plugin;
   private final FileConfiguration messagesConfig;
   private final String configName;
 
-  public MessageHandler(final FileConfiguration messagesConfig) {
+  public MessageHandler(final OmegaWarps plugin, final FileConfiguration messagesConfig) {
+    this.plugin = plugin;
     this.messagesConfig = messagesConfig;
-    this.configName = OmegaWarps.getInstance().getMessagesFile().getFileName();
+    this.configName = plugin.getMessagesFile().getFileName();
   }
 
   public String string(final String message, final String fallbackMessage) {
@@ -32,22 +31,10 @@ public class MessageHandler {
     return messagesConfig.getString(message);
   }
 
-  public List<String> stringList(final String message, final List<String> fallbackMessage) {
-    if(messagesConfig.getStringList(message).size() == 0) {
-      getErrorMessage(message);
-      return fallbackMessage;
-    }
-    return messagesConfig.getStringList(message);
-  }
-
-  public ConfigurationSection configSection(final String message) {
-    return messagesConfig.getConfigurationSection(message);
-  }
-
   public String getPrefix() {
     if(messagesConfig.getString("Prefix") == null) {
       getErrorMessage("Prefix");
-      return "&7&l[&aHelix&7&l]" + " ";
+      return "&7&l[&aOmegaWarps&7&l]" + " ";
     }
     return messagesConfig.getString("Prefix") + " ";
   }

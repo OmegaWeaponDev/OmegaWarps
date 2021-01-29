@@ -7,25 +7,31 @@ import me.ou.library.commands.PlayerCommand;
 import org.bukkit.entity.Player;
 
 public class WarpList extends PlayerCommand {
-  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
+  private final OmegaWarps plugin;
+  private final MessageHandler messageHandler;
+
+  public WarpList(final OmegaWarps plugin) {
+    this.plugin = plugin;
+    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+  }
 
   @Override
   protected void execute(final Player player, final String[] strings) {
 
     if(!Utilities.checkPermissions(player, true,"omegawarps.listwarps", "omegawarps.admin")) {
-      Utilities.message(player, messagesFile.string("No_Permission", "&cSorry, you do not have permission to do that."));
+      Utilities.message(player, messageHandler.string("No_Permission", "#ff4a4aSorry, you do not have permission to do that."));
       return;
     }
 
-    if(OmegaWarps.getInstance().getWarpsFile().getConfig().getKeys(false).size() == 0) {
-      Utilities.message(player, messagesFile.getPrefix() + "&cThere are no warps currently set.");
+    if(plugin.getWarpsFile().getConfig().getKeys(false).size() == 0) {
+      Utilities.message(player, messageHandler.getPrefix() + "#ff4a4aThere are no warps currently set.");
       return;
     }
 
-    Utilities.message(player, messagesFile.getPrefix() + "&bThe current warps are:");
+    Utilities.message(player, messageHandler.getPrefix() + "#14abc9The current warps are:");
 
-    for(String warpName : OmegaWarps.getInstance().getWarpsFile().getConfig().getKeys(false)) {
-      Utilities.message(player, "&c" + warpName);
+    for(String warpName : plugin.getWarpsFile().getConfig().getKeys(false)) {
+      Utilities.message(player, "#ff4a4a" + warpName);
     }
   }
 }

@@ -11,15 +11,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Warps {
-  private final MessageHandler messagesFile = new MessageHandler(OmegaWarps.getInstance().getMessagesFile().getConfig());
-  private final FileConfiguration warpsFile = OmegaWarps.getInstance().getWarpsFile().getConfig();
+  private final OmegaWarps plugin;
+  private final MessageHandler messageHandler;
+  private final FileConfiguration warpsFile;
 
   private final Player player;
   private final String warpName;
 
-  public Warps(final Player player, final String warpName) {
+  public Warps(final OmegaWarps plugin, final Player player, final String warpName) {
+    this.plugin = plugin;
     this.player = player;
     this.warpName = warpName;
+
+    warpsFile = plugin.getWarpsFile().getConfig();
+    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
   }
 
   public void getWarpLocation() {
@@ -48,7 +53,7 @@ public class Warps {
   public void createWarp(final Location warpLocation) {
 
     if(warpsFile.isSet(warpName)) {
-      Utilities.message(player, messagesFile.string("Warp_Already_Exists", "&cSorry, but that warp already exists"));
+      Utilities.message(player, messageHandler.string("Warp_Already_Exists", "&cSorry, but that warp already exists"));
       return;
     }
 
@@ -62,19 +67,19 @@ public class Warps {
     warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
     warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
 
-    OmegaWarps.getInstance().getWarpsFile().saveConfig();
+    plugin.getWarpsFile().saveConfig();
 
-    Utilities.message(player, messagesFile.string("Setwarp_Message.Without_Owner", "&bYou have created the warp %warpName%.").replace("%warpName%", warpName));
+    Utilities.message(player, messageHandler.string("Setwarp_Message.Without_Owner", "&bYou have created the warp %warpName%.").replace("%warpName%", warpName));
   }
 
   public void createWarpOthers(final Player target, final Location warpLocation, final Double warpCost) {
 
     if(warpsFile.isSet(warpName)) {
-      Utilities.message(player, messagesFile.string("Warp_Already_Exists", "&cSorry, but that warp already exists"));
+      Utilities.message(player, messageHandler.string("Warp_Already_Exists", "&cSorry, but that warp already exists"));
       return;
     }
 
-    if(!OmegaWarps.getInstance().getConfigFile().getConfig().getBoolean("Warp_Cost.Enabled") || !Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+    if(!plugin.getConfigFile().getConfig().getBoolean("Warp_Cost.Enabled") || !Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 
       warpsFile.createSection(warpName);
       warpsFile.set(warpName + ".Set By", player.getName());
@@ -87,17 +92,17 @@ public class Warps {
       warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
       warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
 
-      OmegaWarps.getInstance().getWarpsFile().saveConfig();
+      plugin.getWarpsFile().saveConfig();
 
-      Utilities.message(player, messagesFile.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
+      Utilities.message(player, messageHandler.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
       return;
     }
 
     if(!Utilities.checkPermissions(target, true,"omegawarps.cost.bypass", "omegawarps.admin")) {
-      double warpOwnerBalance = OmegaWarps.getInstance().getEconomy().getBalance(target);
+      double warpOwnerBalance = plugin.getEconomy().getBalance(target);
 
       if(warpOwnerBalance < warpCost) {
-        Utilities.message(player, messagesFile.string("Payment_Failed", "&bThe player %player% does not have enough money to pay for the warp.").replace("%player%", target.getName()));
+        Utilities.message(player, messageHandler.string("Payment_Failed", "&bThe player %player% does not have enough money to pay for the warp.").replace("%player%", target.getName()));
         return;
       }
 
@@ -111,20 +116,20 @@ public class Warps {
       warpsFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
       warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
       warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
-      OmegaWarps.getInstance().getWarpsFile().saveConfig();
+      plugin.getWarpsFile().saveConfig();
 
-      OmegaWarps.getInstance().getEconomy().withdrawPlayer(target, warpCost);
+      plugin.getEconomy().withdrawPlayer(target, warpCost);
 
-      Utilities.message(target, messagesFile.string("Warp_Cost_Taken", "&bThe amount of price &c$%warpCost% &bhas been taken from your account for the warp.").replace("%warpCost%", warpCost.toString()));
-      Utilities.message(player, messagesFile.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
+      Utilities.message(target, messageHandler.string("Warp_Cost_Taken", "&bThe amount of price &c$%warpCost% &bhas been taken from your account for the warp.").replace("%warpCost%", warpCost.toString()));
+      Utilities.message(player, messageHandler.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
     }
   }
 
   public void beforeWarpEffects() {
-    player.playSound(player.getLocation(), Sound.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Sound_Effects.Before_Warp_Sound")), 1, 1);
+    player.playSound(player.getLocation(), Sound.valueOf(plugin.getConfigFile().getConfig().getString("Sound_Effects.Before_Warp_Sound")), 1, 1);
     player.spawnParticle(
       Particle.valueOf(
-        OmegaWarps.getInstance().getConfigFile().getConfig().getString("Warp_Particle_Effects.Before_Warp")),
+        plugin.getConfigFile().getConfig().getString("Warp_Particle_Effects.Before_Warp")),
       player.getLocation().getX(),
       player.getLocation().getY(),
       player.getLocation().getZ(), 50
@@ -134,7 +139,7 @@ public class Warps {
   public void postWarpEffects() {
 
     if(!warpsFile.isSet(warpName)) {
-      Utilities.message(player, messagesFile.string("Invalid_Warp_Name", "&cSorry, that warp does not exist."));
+      Utilities.message(player, messageHandler.string("Invalid_Warp_Name", "&cSorry, that warp does not exist."));
       return;
     }
 
@@ -143,10 +148,10 @@ public class Warps {
       @Override
       public void run() {
         getWarpLocation();
-        Utilities.message(player, messagesFile.string("Warp_Message", "&cYou have warped to %warpName%").replace("%warpName%", warpName).replace("%player%", player.getDisplayName()));
-        player.spawnParticle(Particle.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Warp_Particle_Effects.After_Warp")), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 50);
-        player.playSound(player.getLocation(), Sound.valueOf(OmegaWarps.getInstance().getConfigFile().getConfig().getString("Sound_Effects.After_Warp_Sound")), 1, 1);
+        Utilities.message(player, messageHandler.string("Warp_Message", "&cYou have warped to %warpName%").replace("%warpName%", warpName).replace("%player%", player.getDisplayName()));
+        player.spawnParticle(Particle.valueOf(plugin.getConfigFile().getConfig().getString("Warp_Particle_Effects.After_Warp")), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 50);
+        player.playSound(player.getLocation(), Sound.valueOf(plugin.getConfigFile().getConfig().getString("Sound_Effects.After_Warp_Sound")), 1, 1);
       }
-    }.runTaskLater(OmegaWarps.getInstance(), 10);
+    }.runTaskLater(plugin, 10);
   }
 }
