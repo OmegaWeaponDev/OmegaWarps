@@ -4,10 +4,10 @@ import me.omegaweapondev.omegawarps.commands.DebugCommand;
 import me.omegaweapondev.omegawarps.commands.MainCommand;
 import me.omegaweapondev.omegawarps.commands.warps.*;
 import me.omegaweapondev.omegawarps.events.PlayerListener;
+import me.omegaweapondev.omegawarps.utils.MessageHandler;
+import me.omegaweapondev.omegawarps.utils.SettingsHandler;
 import me.ou.library.SpigotUpdater;
 import me.ou.library.Utilities;
-import me.ou.library.configs.ConfigCreator;
-import me.ou.library.configs.ConfigUpdater;
 import net.milkbowl.vault.economy.Economy;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -15,24 +15,21 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.IOException;
-import java.util.Arrays;
-
 public class OmegaWarps extends JavaPlugin {
   private OmegaWarps plugin;
   private Economy econ = null;
-
-  private final ConfigCreator configFile = new ConfigCreator("config.yml");
-  private final ConfigCreator messagesFile = new ConfigCreator("messages.yml");
-  private final ConfigCreator warpsFile = new ConfigCreator("warps.yml");
+  private SettingsHandler settingsHandler;
+  private MessageHandler messageHandler;
   
   @Override
   public void onEnable() {
     plugin = this;
+    settingsHandler = new SettingsHandler(plugin);
+    messageHandler = new MessageHandler(plugin, settingsHandler.getMessagesFile().getConfig());
 
     initialSetup();
-    setupConfigs();
-    configUpdater();
+    settingsHandler.setupConfigs();
+    settingsHandler.configUpdater();
     setupCommands();
     setupEvents();
     setupEconomy();
@@ -45,9 +42,7 @@ public class OmegaWarps extends JavaPlugin {
   }
   
   public void onReload() {
-    getConfigFile().reloadConfig();
-    getMessagesFile().reloadConfig();
-    getWarpsFile().reloadConfig();
+    getSettingsHandler().reloadFiles();
   }
 
   private void initialSetup() {
@@ -75,47 +70,6 @@ public class OmegaWarps extends JavaPlugin {
       "\\ \\_/ |  /\\  /  Currently supporting Spigot 1.13 - 1.16.5",
       " \\___/ \\/  \\/",
       ""
-    );
-  }
-
-  private void configUpdater() {
-    Utilities.logInfo(true, "Attempting to update the config files....");
-
-    try {
-      if(getConfigFile().getConfig().getDouble("Config_Version") != 1.1) {
-        getConfigFile().getConfig().set("Config_Version", 1.1);
-        getConfigFile().saveConfig();
-        ConfigUpdater.update(plugin, "config.yml", getConfigFile().getFile(), Arrays.asList("none"));
-      }
-
-      if(getMessagesFile().getConfig().getDouble("Config_Version") != 1.1) {
-        getMessagesFile().getConfig().set("Config_Version", 1.1);
-        getMessagesFile().saveConfig();
-        ConfigUpdater.update(plugin, "messages.yml", getMessagesFile().getFile(), Arrays.asList("none"));
-      }
-      onReload();
-      Utilities.logInfo(true, "Config Files have successfully been updated!");
-    } catch(IOException ex) {
-      ex.printStackTrace();
-    }
-  }
-
-  private void setupConfigs() {
-    // Setup the files
-    getConfigFile().createConfig();
-    getMessagesFile().createConfig();
-    getWarpsFile().createConfig();
-
-
-    getWarpsFile().getConfig().options().header(
-      " -------------------------------------------------------------------------------------------\n" +
-        " \n" +
-        " Welcome to OmegaWarps warp file.\n" +
-        " \n" +
-        " This file stores all the warps that are created on the server.\n" +
-        " It will include the player who created it, the location & who it was created for.\n" +
-        " \n" +
-        " -------------------------------------------------------------------------------------------"
     );
   }
 
@@ -174,20 +128,16 @@ public class OmegaWarps extends JavaPlugin {
     econ = rsp.getProvider();
     return econ != null;
   }
-
-  public ConfigCreator getConfigFile() {
-    return configFile;
-  }
-
-  public ConfigCreator getMessagesFile() {
-    return messagesFile;
-  }
-
-  public ConfigCreator getWarpsFile() {
-    return warpsFile;
-  }
   
   public Economy getEconomy() {
     return econ;
+  }
+
+  public SettingsHandler getSettingsHandler() {
+    return settingsHandler;
+  }
+
+  public MessageHandler getMessageHandler() {
+    return messageHandler;
   }
 }

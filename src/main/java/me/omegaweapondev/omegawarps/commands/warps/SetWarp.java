@@ -4,17 +4,25 @@ import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.omegaweapondev.omegawarps.utils.Warps;
 import me.ou.library.Utilities;
+import me.ou.library.builders.TabCompleteBuilder;
 import me.ou.library.commands.PlayerCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class SetWarp extends PlayerCommand {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class SetWarp extends PlayerCommand implements TabCompleter {
   private final OmegaWarps plugin;
   private final MessageHandler messageHandler;
   
   public SetWarp(final OmegaWarps plugin) {
     this.plugin = plugin;
-     messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+     messageHandler = plugin.getMessageHandler();
   }
 
   @Override
@@ -52,7 +60,21 @@ public class SetWarp extends PlayerCommand {
         return;
       }
 
-      warpHandler.createWarpOthers(Bukkit.getPlayer(strings[0]), player.getLocation(), plugin.getConfigFile().getConfig().getDouble("Warp_Cost.Cost"));
+      warpHandler.createWarpOthers(Bukkit.getPlayer(strings[0]), player.getLocation(), plugin.getSettingsHandler().getConfigFile().getConfig().getDouble("Warp_Cost.Cost"));
     }
+  }
+
+  @Override
+  public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+    if(strings.length <= 1) {
+      List<String> players = new ArrayList<>();
+      for(Player player : Bukkit.getOnlinePlayers()) {
+        players.add(player.getName());
+      }
+
+      return new TabCompleteBuilder(commandSender).addCommand(players).build(strings[0]);
+    }
+
+    return Collections.emptyList();
   }
 }

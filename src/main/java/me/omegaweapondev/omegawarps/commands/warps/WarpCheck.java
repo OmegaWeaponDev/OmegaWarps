@@ -4,18 +4,24 @@ import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.ou.library.Utilities;
 import me.ou.library.commands.PlayerCommand;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-public class WarpCheck extends PlayerCommand {
+import java.util.Collections;
+import java.util.List;
+
+public class WarpCheck extends PlayerCommand implements TabCompleter {
   private final OmegaWarps plugin;
   private final FileConfiguration warpConfigFile;
   private final MessageHandler messageHandler;
   
   public WarpCheck(final OmegaWarps plugin) {
     this.plugin = plugin;
-    warpConfigFile = plugin.getWarpsFile().getConfig();
-    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+    warpConfigFile = plugin.getSettingsHandler().getWarpsFile().getConfig();
+    messageHandler = plugin.getMessageHandler();
   }
 
   @Override
@@ -33,7 +39,7 @@ public class WarpCheck extends PlayerCommand {
 
     String warpName = strings[0];
 
-    if(!plugin.getWarpsFile().getConfig().isSet(warpName)) {
+    if(!warpConfigFile.isSet(warpName)) {
       Utilities.message(player, messageHandler.string("Invalid_Warp_Name", "#ff4a4aSorry, that warp does not exist."));
       return;
     }
@@ -65,5 +71,10 @@ public class WarpCheck extends PlayerCommand {
       messageHandler.getPrefix() + "#14abc9Location Y: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.Y"),
       messageHandler.getPrefix() + "#14abc9Location Z: #ff4a4a" + warpConfigFile.getString(warpName + ".Warp Location.Z")
     );
+  }
+
+  @Override
+  public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+    return Collections.emptyList();
   }
 }

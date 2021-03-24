@@ -20,7 +20,7 @@ public class PlayerListener implements Listener {
   public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
     Player player = playerJoinEvent.getPlayer();
 
-    if(!plugin.getConfigFile().getConfig().getBoolean("Update_Notify")) {
+    if(!plugin.getSettingsHandler().getConfigFile().getConfig().getBoolean("Update_Notify")) {
       return;
     }
 

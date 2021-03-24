@@ -23,8 +23,8 @@ public class Warps {
     this.player = player;
     this.warpName = warpName;
 
-    warpsFile = plugin.getWarpsFile().getConfig();
-    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+    warpsFile = plugin.getSettingsHandler().getWarpsFile().getConfig();
+    messageHandler = plugin.getMessageHandler();
   }
 
   public void getWarpLocation() {
@@ -67,7 +67,7 @@ public class Warps {
     warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
     warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
 
-    plugin.getWarpsFile().saveConfig();
+    plugin.getSettingsHandler().getWarpsFile().saveConfig();
 
     Utilities.message(player, messageHandler.string("Setwarp_Message.Without_Owner", "&bYou have created the warp %warpName%.").replace("%warpName%", warpName));
   }
@@ -79,7 +79,7 @@ public class Warps {
       return;
     }
 
-    if(!plugin.getConfigFile().getConfig().getBoolean("Warp_Cost.Enabled") || !Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+    if(!plugin.getSettingsHandler().getConfigFile().getConfig().getBoolean("Warp_Cost.Enabled") || !Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 
       warpsFile.createSection(warpName);
       warpsFile.set(warpName + ".Set By", player.getName());
@@ -92,7 +92,7 @@ public class Warps {
       warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
       warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
 
-      plugin.getWarpsFile().saveConfig();
+      plugin.getSettingsHandler().getWarpsFile().saveConfig();
 
       Utilities.message(player, messageHandler.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
       return;
@@ -116,7 +116,7 @@ public class Warps {
       warpsFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
       warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
       warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
-      plugin.getWarpsFile().saveConfig();
+      plugin.getSettingsHandler().getWarpsFile().saveConfig();
 
       plugin.getEconomy().withdrawPlayer(target, warpCost);
 
@@ -126,10 +126,10 @@ public class Warps {
   }
 
   public void beforeWarpEffects() {
-    player.playSound(player.getLocation(), Sound.valueOf(plugin.getConfigFile().getConfig().getString("Sound_Effects.Before_Warp_Sound")), 1, 1);
+    player.playSound(player.getLocation(), Sound.valueOf(plugin.getSettingsHandler().getConfigFile().getConfig().getString("Sound_Effects.Before_Warp_Sound")), 1, 1);
     player.spawnParticle(
       Particle.valueOf(
-        plugin.getConfigFile().getConfig().getString("Warp_Particle_Effects.Before_Warp")),
+        plugin.getSettingsHandler().getConfigFile().getConfig().getString("Warp_Particle_Effects.Before_Warp")),
       player.getLocation().getX(),
       player.getLocation().getY(),
       player.getLocation().getZ(), 50
@@ -149,8 +149,8 @@ public class Warps {
       public void run() {
         getWarpLocation();
         Utilities.message(player, messageHandler.string("Warp_Message", "&cYou have warped to %warpName%").replace("%warpName%", warpName).replace("%player%", player.getDisplayName()));
-        player.spawnParticle(Particle.valueOf(plugin.getConfigFile().getConfig().getString("Warp_Particle_Effects.After_Warp")), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 50);
-        player.playSound(player.getLocation(), Sound.valueOf(plugin.getConfigFile().getConfig().getString("Sound_Effects.After_Warp_Sound")), 1, 1);
+        player.spawnParticle(Particle.valueOf(plugin.getSettingsHandler().getConfigFile().getConfig().getString("Warp_Particle_Effects.After_Warp")), player.getLocation().getX(), player.getLocation().getY(), player.getLocation().getZ(), 50);
+        player.playSound(player.getLocation(), Sound.valueOf(plugin.getSettingsHandler().getConfigFile().getConfig().getString("Sound_Effects.After_Warp_Sound")), 1, 1);
       }
     }.runTaskLater(plugin, 10);
   }

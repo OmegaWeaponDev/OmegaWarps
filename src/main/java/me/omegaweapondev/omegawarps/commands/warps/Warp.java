@@ -4,19 +4,26 @@ import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.omegaweapondev.omegawarps.utils.Warps;
 import me.ou.library.Utilities;
+import me.ou.library.builders.TabCompleteBuilder;
 import me.ou.library.commands.GlobalCommand;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class Warp extends GlobalCommand {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class Warp extends GlobalCommand implements TabCompleter {
   private final OmegaWarps plugin;
   private final MessageHandler messageHandler;
   
   public Warp(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+    messageHandler = plugin.getMessageHandler();
   }
 
   @Override
@@ -67,12 +74,12 @@ public class Warp extends GlobalCommand {
   private void playerWarp(final Player player, final String warpName) {
     final Warps warpHandler = new Warps(plugin, player, warpName);
 
-    if(!plugin.getWarpsFile().getConfig().isSet(warpName)) {
+    if(!plugin.getSettingsHandler().getWarpsFile().getConfig().isSet(warpName)) {
       Utilities.message(player, messageHandler.string("Invalid_Warp_Name", "#ff4a4aSorry, that warp does not exist!"));
       return;
     }
 
-    if(!plugin.getConfigFile().getConfig().getBoolean("Per_Warp_Permissions")) {
+    if(!plugin.getSettingsHandler().getConfigFile().getConfig().getBoolean("Per_Warp_Permissions")) {
 
       if(!Utilities.checkPermissions(player, true, "omegawarps.warps", "omegawarps.admin")) {
         Utilities.message(player, messageHandler.string("No_Permission", "#ff4a4aSorry, you do not have permission to do that."));
@@ -99,7 +106,7 @@ public class Warp extends GlobalCommand {
     if(sender instanceof Player) {
       Player player = (Player) sender;
 
-      if(!plugin.getWarpsFile().getConfig().isSet(warpName)) {
+      if(!plugin.getSettingsHandler().getWarpsFile().getConfig().isSet(warpName)) {
         Utilities.message(player, messageHandler.string("Invalid_Warp_Name", "#ff4a4aSorry, that warp does not exist!"));
         return;
       }
@@ -121,7 +128,7 @@ public class Warp extends GlobalCommand {
 
     if(sender instanceof ConsoleCommandSender) {
 
-      if(!plugin.getWarpsFile().getConfig().isSet(warpName)) {
+      if(!plugin.getSettingsHandler().getWarpsFile().getConfig().isSet(warpName)) {
         Utilities.logInfo(true, messageHandler.console("Invalid_Warp_Name", "Sorry, that warp does not exist!"));
         return;
       }
@@ -134,5 +141,19 @@ public class Warp extends GlobalCommand {
       warpHandler.beforeWarpEffects();
       warpHandler.postWarpEffects();
     }
+  }
+
+  @Override
+  public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+    if(strings.length == 2) {
+      List<String> players = new ArrayList<>();
+      for(Player player : Bukkit.getOnlinePlayers()) {
+        players.add(player.getName());
+      }
+
+      return new TabCompleteBuilder(commandSender).addCommand(players).build(strings[1]);
+    }
+
+    return Collections.emptyList();
   }
 }

@@ -12,7 +12,7 @@ public class MessageHandler {
   public MessageHandler(final OmegaWarps plugin, final FileConfiguration messagesConfig) {
     this.plugin = plugin;
     this.messagesConfig = messagesConfig;
-    this.configName = plugin.getMessagesFile().getFileName();
+    this.configName = plugin.getSettingsHandler().getMessagesFile().getFileName();
   }
 
   public String string(final String message, final String fallbackMessage) {

@@ -4,17 +4,22 @@ import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.ou.library.Utilities;
 import me.ou.library.commands.GlobalCommand;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class ClearWarps extends GlobalCommand {
+import java.util.Collections;
+import java.util.List;
+
+public class ClearWarps extends GlobalCommand implements TabCompleter {
   private final OmegaWarps plugin;
   private final MessageHandler messageHandler;
 
   public ClearWarps(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+    messageHandler = plugin.getMessageHandler();
   }
 
   @Override
@@ -28,22 +33,27 @@ public class ClearWarps extends GlobalCommand {
         return;
       }
 
-      for(String warpName : plugin.getWarpsFile().getConfig().getKeys(false)) {
-        plugin.getWarpsFile().getConfig().set(warpName, null);
+      for(String warpName : plugin.getSettingsHandler().getWarpsFile().getConfig().getKeys(false)) {
+        plugin.getSettingsHandler().getWarpsFile().getConfig().set(warpName, null);
       }
 
-      plugin.getWarpsFile().saveConfig();
+      plugin.getSettingsHandler().getWarpsFile().saveConfig();
       Utilities.message(player, messageHandler.string("Clear_Warps_Message", "#ff4a4aYou have deleted all the warps!"));
       return;
     }
 
     if(sender instanceof ConsoleCommandSender) {
-      for(String warpName : plugin.getWarpsFile().getConfig().getKeys(false)) {
-        plugin.getWarpsFile().getConfig().set(warpName, null);
+      for(String warpName : plugin.getSettingsHandler().getWarpsFile().getConfig().getKeys(false)) {
+        plugin.getSettingsHandler().getWarpsFile().getConfig().set(warpName, null);
       }
 
-      plugin.getWarpsFile().saveConfig();
+      plugin.getSettingsHandler().getWarpsFile().saveConfig();
       Utilities.logInfo(true, "All warps have successfully been deleted.");
     }
+  }
+
+  @Override
+  public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+    return Collections.emptyList();
   }
 }

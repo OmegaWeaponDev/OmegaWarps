@@ -18,7 +18,7 @@
   <groupId>me.omegaweapondev</groupId>
   <artifactId>omegawarps</artifactId>
   <name>OmegaWarps</name>
-  <version>2.2.0</version>
+  <version>2.2.1</version>
   <description>OmegaWarps lets your players warp around in style.</description>
 
   <!--
@@ -120,7 +120,7 @@
     <dependency>
       <groupId>me.ou</groupId>
       <artifactId>library</artifactId>
-      <version>1.4.1</version>
+      <version>1.6.2</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

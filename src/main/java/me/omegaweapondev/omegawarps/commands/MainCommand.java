@@ -3,18 +3,24 @@ package me.omegaweapondev.omegawarps.commands;
 import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.ou.library.Utilities;
+import me.ou.library.builders.TabCompleteBuilder;
 import me.ou.library.commands.GlobalCommand;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class MainCommand extends GlobalCommand {
+import java.util.Collections;
+import java.util.List;
+
+public class MainCommand extends GlobalCommand implements TabCompleter {
   private final OmegaWarps plugin;
   private final MessageHandler messageHandler;
 
   public MainCommand(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler =  new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+    messageHandler = plugin.getMessageHandler();
   }
 
   @Override
@@ -64,7 +70,7 @@ public class MainCommand extends GlobalCommand {
     if(sender instanceof Player) {
       Player player = (Player) sender;
 
-      if(!Utilities.checkPermissions(player, true, "omegawarps.reload", "omegawarps.*")) {
+      if(!Utilities.checkPermissions(player, true, "omegawarps.reload", "omegawarps.admin")) {
         Utilities.message(player, messageHandler.string("No_Permission", "#ff4a4aSorry, but you do not have permission to use this command."));
         return;
       }
@@ -121,5 +127,18 @@ public class MainCommand extends GlobalCommand {
         "Warp command: /warp <warp>"
       );
     }
+  }
+
+  @Override
+  public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+    if(strings.length <= 1) {
+      return new TabCompleteBuilder(commandSender)
+        .checkCommand("reload", true, "omegawarps.reload", "omegawarps.admin")
+        .checkCommand("help", true, "omegawarps.admin")
+        .checkCommand("version", true, "omegawarps.admin")
+        .build(strings[0]);
+    }
+
+    return Collections.emptyList();
   }
 }

@@ -4,17 +4,22 @@ import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.ou.library.Utilities;
 import me.ou.library.commands.GlobalCommand;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class RemoveWarp extends GlobalCommand {
+import java.util.Collections;
+import java.util.List;
+
+public class RemoveWarp extends GlobalCommand implements TabCompleter {
   private final OmegaWarps plugin;
   private final MessageHandler messageHandler;
 
   public RemoveWarp(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler = new MessageHandler(plugin, plugin.getMessagesFile().getConfig());
+    messageHandler = plugin.getMessageHandler();
   }
 
   @Override
@@ -35,13 +40,13 @@ public class RemoveWarp extends GlobalCommand {
 
       String warpName = strings[0];
 
-      if(!plugin.getWarpsFile().getConfig().isSet(warpName)) {
+      if(!plugin.getSettingsHandler().getWarpsFile().getConfig().isSet(warpName)) {
         Utilities.message(player, messageHandler.string("Invalid_Warp_Name", "#ff4a4aSorry, that warp does not exist."));
         return;
       }
 
-      plugin.getWarpsFile().getConfig().set(warpName, null);
-      plugin.getWarpsFile().saveConfig();
+      plugin.getSettingsHandler().getWarpsFile().getConfig().set(warpName, null);
+      plugin.getSettingsHandler().getWarpsFile().saveConfig();
 
       Utilities.message(player, messageHandler.string("Remove_Warp_Message", "#14abc9You have successfully deleted the warp %warpName%").replace("%warpName%", warpName));
       return;
@@ -55,36 +60,20 @@ public class RemoveWarp extends GlobalCommand {
 
       String warpName = strings[0];
 
-      if(!plugin.getWarpsFile().getConfig().isSet(warpName)) {
+      if(!plugin.getSettingsHandler().getWarpsFile().getConfig().isSet(warpName)) {
         Utilities.logInfo(true, "Sorry, that warp does not exist!");
         return;
       }
 
-      plugin.getWarpsFile().getConfig().set(warpName, null);
-      plugin.getWarpsFile().saveConfig();
+      plugin.getSettingsHandler().getWarpsFile().getConfig().set(warpName, null);
+      plugin.getSettingsHandler().getWarpsFile().saveConfig();
 
       Utilities.logInfo(true, messageHandler.string("Remove_Warp_Message", "#14abc9You have successfully deleted the warp %warpName%").replace("%warpName%", warpName));
     }
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  @Override
+  public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+    return Collections.emptyList();
   }
 }
