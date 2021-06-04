@@ -27,6 +27,17 @@ public class OmegaWarps extends JavaPlugin {
     settingsHandler = new SettingsHandler(plugin);
     messageHandler = new MessageHandler(plugin, settingsHandler.getMessagesFile().getConfig());
 
+    // Logs a message to console, saying that the plugin has enabled correctly.
+    Utilities.logInfo(false,
+      " _____ _    _",
+      "|  _  | |  | |",
+      "| | | | |  | |  OmegaWarps v" + plugin.getDescription().getVersion() + " By OmegaWeaponDev",
+      "| | | | |/\\| |  Take full control of the warping done on your server!",
+      "\\ \\_/ |  /\\  /  Currently supporting Spigot 1.13 - 1.16.5",
+      " \\___/ \\/  \\/",
+      ""
+    );
+
     initialSetup();
     settingsHandler.setupConfigs();
     settingsHandler.configUpdater();
@@ -60,17 +71,6 @@ public class OmegaWarps extends JavaPlugin {
     // Setup bStats
     final int bstatsPluginId = 7492;
     Metrics metrics = new Metrics(plugin, bstatsPluginId);
-
-    // Logs a message to console, saying that the plugin has enabled correctly.
-    Utilities.logInfo(true,
-      " _____ _    _",
-      "|  _  | |  | |",
-      "| | | | |  | |  OmegaWarps v" + plugin.getDescription().getVersion() + " By OmegaWeaponDev",
-      "| | | | |/\\| |  Take full control of the warping done on your server!",
-      "\\ \\_/ |  /\\  /  Currently supporting Spigot 1.13 - 1.16.5",
-      " \\___/ \\/  \\/",
-      ""
-    );
   }
 
   private void setupCommands() {

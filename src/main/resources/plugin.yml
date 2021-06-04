@@ -50,6 +50,7 @@ permissions:
       - omegawarps.cost.bypass
       - omegawarps.clearwarps
       - omegawarps.debug
+      - omegawarps.warps.worldbypass
   omegawarps.reload:
     default: false
     description: Grants access to the reload command
@@ -83,3 +84,6 @@ permissions:
   omegawarps.debug:
     default: false
     description: Grants access to the debug command
+  omegawarps.warps.worldbypass:
+    default: false
+    description: Allows the user to bypass the cross world warp block

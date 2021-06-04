@@ -49,8 +49,11 @@ Reload_Message: "#14abc9OmegaWarps has successfully been reloaded."
 # Set the message players receive if they try and teleport a player that isn't online
 Invalid_Player: "#ff4a4aSorry, but no player with that name was found."
 
+# Set the message players get when they are blocked from warping to another world
+Cross_World_Deny: "#ff4a4aSorry, you can not use that from this world!"
+
 # Set the message players are sent when they try to use an OmegaWarps command without permission.
 No_Permission: "#ff4a4aSorry, you do not have permission to do that."
 
 # DO NOT EDIT THIS!
-Config_Version: 1.2
+Config_Version: 1.3

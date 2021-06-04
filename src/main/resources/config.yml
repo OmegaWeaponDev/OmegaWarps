@@ -29,6 +29,10 @@ Sound_Effects:
   # The sound effect that is played after the player has warped
   After_Warp_Sound: ENTITY_FOX_TELEPORT
 
+# If you want to stop players from using warps that are in a different world
+# Use the permission `omegawarps.warps.worldbypass` or `omegwarps.admin` to bypass this setting
+Cross_World_Deny: false
+
 # If permissions should be per warp permissions or a single permission for all warps.
 # If true, use the permissions `omegawarps.warp.<warpname>` OR `omegawarps.warp.*` for all the warps
 # If false, use permission `omegawarps.warps`

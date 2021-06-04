@@ -96,6 +96,10 @@ public class Warp extends GlobalCommand implements TabCompleter {
       return;
     }
 
+    if(isWorldWarpDenied(warpName, player)) {
+      return;
+    }
+
     warpHandler.beforeWarpEffects();
     warpHandler.postWarpEffects();
   }
@@ -111,7 +115,7 @@ public class Warp extends GlobalCommand implements TabCompleter {
         return;
       }
 
-      if(!Utilities.checkPermissions(player, true, "omegawarps.warps.others", "omegawarps.*")) {
+      if(!Utilities.checkPermissions(player, true, "omegawarps.warps.others", "omegawarps.admin")) {
         Utilities.message(player, messageHandler.string("No_Permission", "#ff4a4aSorry, you do not have permission to do that."));
         return;
       }
@@ -141,6 +145,23 @@ public class Warp extends GlobalCommand implements TabCompleter {
       warpHandler.beforeWarpEffects();
       warpHandler.postWarpEffects();
     }
+  }
+
+  private boolean isWorldWarpDenied(String warpName, Player player) {
+    if(!plugin.getSettingsHandler().getConfigFile().getConfig().getBoolean("Cross_World_Deny")) {
+      return false;
+    }
+
+    if(player.getWorld().getName().equals(plugin.getSettingsHandler().getWarpsFile().getConfig().getString(warpName + ".Warp Location.World"))) {
+      return false;
+    }
+
+    if(Utilities.checkPermissions(player, true, "omegawarps.warps.worldbypass", "omegwarps.admin")) {
+      return false;
+    }
+
+    Utilities.message(player, messageHandler.string("Cross_World_Deny", "#ff4a4aSorry, you can not do that from this world!"));
+    return true;
   }
 
   @Override

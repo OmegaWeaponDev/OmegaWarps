@@ -18,7 +18,7 @@
   <groupId>me.omegaweapondev</groupId>
   <artifactId>omegawarps</artifactId>
   <name>OmegaWarps</name>
-  <version>2.2.1</version>
+  <version>2.2.2</version>
   <description>OmegaWarps lets your players warp around in style.</description>
 
   <!--
@@ -52,8 +52,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
     <!-- Used to force the compiler to use Java JDK 1.8. Can be left out if the IDE has been setup correctly. -->
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>11.0</maven.compiler.source>
+    <maven.compiler.target>11.0</maven.compiler.target>
   </properties>
 
   <!--
