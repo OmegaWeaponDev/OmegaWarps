@@ -19,7 +19,7 @@ public class ClearWarps extends GlobalCommand implements TabCompleter {
 
   public ClearWarps(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler = plugin.getMessageHandler();
+    messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
   }
 
   @Override

@@ -24,7 +24,7 @@ public class Warps {
     this.warpName = warpName;
 
     warpsFile = plugin.getSettingsHandler().getWarpsFile().getConfig();
-    messageHandler = plugin.getMessageHandler();
+    messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
   }
 
   public void getWarpLocation() {
@@ -122,7 +122,22 @@ public class Warps {
 
       Utilities.message(target, messageHandler.string("Warp_Cost_Taken", "&bThe amount of price &c$%warpCost% &bhas been taken from your account for the warp.").replace("%warpCost%", warpCost.toString()));
       Utilities.message(player, messageHandler.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
+      return;
     }
+
+    warpsFile.createSection(warpName);
+    warpsFile.set(warpName + ".Set By", player.getName());
+    warpsFile.set(warpName + ".Set For", target.getName());
+    warpsFile.set(warpName + ".Time Set", LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+    warpsFile.set(warpName + ".Warp Location.World", player.getWorld().getName());
+    warpsFile.set(warpName + ".Warp Location.X", warpLocation.getX());
+    warpsFile.set(warpName + ".Warp Location.Y", warpLocation.getY());
+    warpsFile.set(warpName + ".Warp Location.Z", warpLocation.getZ());
+    warpsFile.set(warpName + ".Warp Location.Yaw", warpLocation.getYaw());
+    warpsFile.set(warpName + ".Warp Location.Pitch", warpLocation.getPitch());
+    plugin.getSettingsHandler().getWarpsFile().saveConfig();
+
+    Utilities.message(player, messageHandler.string("Setwarp_Message.With_Owner", "&bYou have created the warp %warpName% for %warpOwner%!").replace("%warpName%", warpName).replace("%warpOwner%", target.getName()));
   }
 
   public void beforeWarpEffects() {

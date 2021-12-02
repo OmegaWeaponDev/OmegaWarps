@@ -4,7 +4,6 @@ import me.omegaweapondev.omegawarps.commands.DebugCommand;
 import me.omegaweapondev.omegawarps.commands.MainCommand;
 import me.omegaweapondev.omegawarps.commands.warps.*;
 import me.omegaweapondev.omegawarps.events.PlayerListener;
-import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.omegaweapondev.omegawarps.utils.SettingsHandler;
 import me.ou.library.SpigotUpdater;
 import me.ou.library.Utilities;
@@ -19,13 +18,12 @@ public class OmegaWarps extends JavaPlugin {
   private OmegaWarps plugin;
   private Economy econ = null;
   private SettingsHandler settingsHandler;
-  private MessageHandler messageHandler;
+
   
   @Override
   public void onEnable() {
     plugin = this;
     settingsHandler = new SettingsHandler(plugin);
-    messageHandler = new MessageHandler(plugin, settingsHandler.getMessagesFile().getConfig());
 
     // Logs a message to console, saying that the plugin has enabled correctly.
     Utilities.logInfo(false,
@@ -39,8 +37,8 @@ public class OmegaWarps extends JavaPlugin {
     );
 
     initialSetup();
-    settingsHandler.setupConfigs();
-    settingsHandler.configUpdater();
+    getSettingsHandler().setupConfigs();
+    getSettingsHandler().configUpdater();
     setupCommands();
     setupEvents();
     setupEconomy();
@@ -97,7 +95,7 @@ public class OmegaWarps extends JavaPlugin {
 
   private void spigotUpdater() {
     // The Updater
-    new SpigotUpdater(plugin, 78327).getVersion(version -> {
+    new SpigotUpdater(plugin, 74788).getVersion(version -> {
       int spigotVersion = Integer.parseInt(version.replace(".", ""));
       int pluginVersion = Integer.parseInt(plugin.getDescription().getVersion().replace(".", ""));
 
@@ -135,9 +133,5 @@ public class OmegaWarps extends JavaPlugin {
 
   public SettingsHandler getSettingsHandler() {
     return settingsHandler;
-  }
-
-  public MessageHandler getMessageHandler() {
-    return messageHandler;
   }
 }

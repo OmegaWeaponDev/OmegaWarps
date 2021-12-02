@@ -2,41 +2,51 @@ package me.omegaweapondev.omegawarps.utils;
 
 import me.omegaweapondev.omegawarps.OmegaWarps;
 import me.ou.library.Utilities;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class MessageHandler {
   private final OmegaWarps plugin;
-  private final FileConfiguration messagesConfig;
+  private final FileConfiguration messagesFile;
   private final String configName;
 
-  public MessageHandler(final OmegaWarps plugin, final FileConfiguration messagesConfig) {
+  public MessageHandler(final OmegaWarps plugin, final FileConfiguration messagesFile) {
     this.plugin = plugin;
-    this.messagesConfig = messagesConfig;
+    this.messagesFile = messagesFile;
+
     this.configName = plugin.getSettingsHandler().getMessagesFile().getFileName();
   }
 
   public String string(final String message, final String fallbackMessage) {
-    if(messagesConfig.getString(message) == null) {
+    if(messagesFile.getString(message) == null) {
       getErrorMessage(message);
       return getPrefix() + fallbackMessage;
     }
-    return getPrefix() + messagesConfig.getString(message);
+    return getPrefix() + messagesFile.getString(message);
   }
 
   public String console(final String message, final String fallbackMessage) {
-    if(messagesConfig.getString(message) == null) {
+    if(messagesFile.getString(message) == null) {
       getErrorMessage(message);
       return fallbackMessage;
     }
-    return messagesConfig.getString(message);
+    return messagesFile.getString(message);
+  }
+
+  public ConfigurationSection configSection(final String message) {
+    return messagesFile.getConfigurationSection(message);
+  }
+
+  public boolean getConfigBoolean(final String booleanValue) {
+    return messagesFile.getBoolean(booleanValue);
   }
 
   public String getPrefix() {
-    if(messagesConfig.getString("Prefix") == null) {
+    if(messagesFile.getString("Prefix") == null) {
       getErrorMessage("Prefix");
-      return "&7&l[&aOmegaWarps&7&l]" + " ";
+      return "#808080&l[#560900DeathWarden#808080&l]" + " ";
     }
-    return messagesConfig.getString("Prefix") + " ";
+    return messagesFile.getString("Prefix") + " ";
   }
 
   private void getErrorMessage(final String message) {

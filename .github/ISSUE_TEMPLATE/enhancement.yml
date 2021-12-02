@@ -1,0 +1,34 @@
+name: Enhancements
+description: Feature requests and plugin Enhancements
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees:
+  - OmegaWeaponDev
+body:
+  - type: markdown
+    attributes:
+      value: "If there is something that you wish to be improved or implemented into OmegaWarps, please suggest it here."
+  - type: textarea
+    id: enhancement-description
+    attributes:
+      label: Enhancement Description
+      description: Please provide a clear and detailed explanation of the feature / enhancement request.
+      placeholder: I think you should add...
+    validations:
+      required: true
+  - type: textarea
+    id: functionality
+    attributes:
+      label: Functionality
+      description: Please tell me how you would expect this feature / enchancement to behave in-game
+      placeholder: It would...
+    validations:
+      required: true
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional Information
+      description: If there is any other information you feel is relevant to this issue, please provide it here.
+      placeholder: Additional Information...
+    validations:
+      required: false

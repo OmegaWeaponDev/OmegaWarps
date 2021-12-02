@@ -18,7 +18,7 @@ public class WarpList extends PlayerCommand implements TabCompleter {
 
   public WarpList(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler = plugin.getMessageHandler();
+    messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
   }
 
   @Override

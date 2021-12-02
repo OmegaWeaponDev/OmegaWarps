@@ -30,7 +30,7 @@ public class PlayerListener implements Listener {
 
     // Send the player a message on join if there is an update for the plugin
     // The Updater
-    new SpigotUpdater(plugin, 78327).getVersion(version -> {
+    new SpigotUpdater(plugin, 74788).getVersion(version -> {
       int spigotVersion = Integer.parseInt(version.replace(".", ""));
       int pluginVersion = Integer.parseInt(plugin.getDescription().getVersion().replace(".", ""));
 

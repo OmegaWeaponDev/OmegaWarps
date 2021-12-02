@@ -10,12 +10,15 @@ import java.util.Arrays;
 
 public class SettingsHandler {
   private final OmegaWarps plugin;
-  private final ConfigCreator configFile = new ConfigCreator("config.yml");
-  private final ConfigCreator messagesFile = new ConfigCreator("messages.yml");
-  private final ConfigCreator warpsFile = new ConfigCreator("warps.yml");
+  private final ConfigCreator configFile;
+  private final ConfigCreator messagesFile;
+  private final ConfigCreator warpsFile;
 
   public SettingsHandler(final OmegaWarps plugin) {
     this.plugin = plugin;
+    configFile = new ConfigCreator("config.yml");
+    messagesFile = new ConfigCreator("messages.yml");
+    warpsFile = new ConfigCreator("warps.yml");
   }
 
   public void setupConfigs() {
@@ -33,6 +36,7 @@ public class SettingsHandler {
         " \n" +
         " -------------------------------------------------------------------------------------------"
     );
+
   }
 
   public void configUpdater() {

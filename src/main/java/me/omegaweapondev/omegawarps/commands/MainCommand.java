@@ -20,7 +20,7 @@ public class MainCommand extends GlobalCommand implements TabCompleter {
 
   public MainCommand(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler = plugin.getMessageHandler();
+    messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
   }
 
   @Override

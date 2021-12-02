@@ -21,7 +21,7 @@ public class WarpCheck extends PlayerCommand implements TabCompleter {
   public WarpCheck(final OmegaWarps plugin) {
     this.plugin = plugin;
     warpConfigFile = plugin.getSettingsHandler().getWarpsFile().getConfig();
-    messageHandler = plugin.getMessageHandler();
+    messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
   }
 
   @Override

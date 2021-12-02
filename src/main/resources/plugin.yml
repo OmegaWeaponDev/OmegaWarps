@@ -5,7 +5,6 @@ description: ${project.description}
 main: ${main.class}
 
 author: ${pl.author}
-authors: ${pl.authors}
 
 softdepend:
   - Vault

@@ -22,7 +22,7 @@ public class SetWarp extends PlayerCommand implements TabCompleter {
   
   public SetWarp(final OmegaWarps plugin) {
     this.plugin = plugin;
-     messageHandler = plugin.getMessageHandler();
+    messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
   }
 
   @Override
@@ -39,7 +39,7 @@ public class SetWarp extends PlayerCommand implements TabCompleter {
       return;
     }
 
-    final Warps warpHandler = new Warps(plugin, player, strings[0]);
+    Warps warpHandler = new Warps(plugin, player, strings[0]);
 
     if(strings.length == 1) {
       warpHandler.createWarp(player.getLocation());
@@ -54,6 +54,7 @@ public class SetWarp extends PlayerCommand implements TabCompleter {
     if(strings.length == 2) {
       String warpOwnerName = strings[0];
       Player warpOwner = Bukkit.getPlayer(warpOwnerName);
+      warpHandler = new Warps(plugin, player, strings[1]);
 
       if(warpOwner == null) {
         Utilities.message(player, messageHandler.string("Invalid_Player", "#ff4a4aSorry, but no player with that name was found."));

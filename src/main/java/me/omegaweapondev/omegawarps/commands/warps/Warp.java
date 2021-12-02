@@ -23,7 +23,7 @@ public class Warp extends GlobalCommand implements TabCompleter {
   
   public Warp(final OmegaWarps plugin) {
     this.plugin = plugin;
-    messageHandler = plugin.getMessageHandler();
+    messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
   }
 
   @Override

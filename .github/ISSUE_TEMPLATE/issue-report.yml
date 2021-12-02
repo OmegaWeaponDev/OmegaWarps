@@ -1,0 +1,68 @@
+name: Issue reports
+description: Report any issues that you encounter with OmegaWarps
+title: "[Bug]: "
+labels: ["bug"]
+assignees:
+  - OmegaWeaponDev
+body:
+  - type: markdown
+    attributes:
+      value: "Before posting an issue, please make sure you have downloaded and installed the latest version from: https://www.spigotmc.org/resources/omegawarps.74788/"
+  - type: textarea
+    id: issue-description
+    attributes:
+      label: Issue Description
+      description: Please provide a clear and detailed description of the issue that you are reporting.
+      placeholder: Issue Description...
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Please provide a step-by-step guide on how to re-produce the issue
+      placeholder: First I did....
+    validations:
+      required: true
+  - type: textarea
+    id: error-messages
+    attributes:
+      label: Error Messages
+      description: If you are getting any error messages (either in-game or in the server console) please provide the full errors here.
+      placeholder: Make sure you include the full error!
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: expected-behaviour
+    attributes:
+      label: Expected Behaviour
+      description: What were you expecting to happen when the issue occurred?
+      placeholder: Expected Behaviour...
+    validations:
+      required: true
+  - type: input
+    id: debug-infomration
+    attributes:
+      label: Debug Information
+      description: Please provide the full output from the command '/omegawarpsdebug'
+      placeholder: Debug information here...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and Configs
+      description: Please include a pastebin of relevant config files or logs.
+      placeholder: Please make sure to include the full files! (The contents will automatically be formatted when you paste it here!)
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    id: additional-information
+    attributes:
+      label: Additional Information
+      description: If there is any other information you feel is relevant to this issue, please provide it here.
+      placeholder: Additional Information...
+    validations:
+      required: false
