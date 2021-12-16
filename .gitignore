@@ -1,3 +1,5 @@
 /.idea/
 /OmegaWarps.iml
 /target/
+/.gradle/
+/build/
