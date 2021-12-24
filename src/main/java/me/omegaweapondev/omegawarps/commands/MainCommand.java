@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -130,7 +131,7 @@ public class MainCommand extends GlobalCommand implements TabCompleter {
   }
 
   @Override
-  public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
+  public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
     if(strings.length <= 1) {
       return new TabCompleteBuilder(commandSender)
         .checkCommand("reload", true, "omegawarps.reload", "omegawarps.admin")

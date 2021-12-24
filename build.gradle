@@ -1,7 +1,6 @@
 plugins {
     id 'java'
     id 'maven-publish'
-    id 'java-library'
     id 'com.github.johnrengelman.shadow' version '7.1.1'
 }
 
@@ -36,13 +35,13 @@ dependencies {
     implementation 'org.bstats:bstats-bukkit:2.2.1'
     compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
+    compileOnly 'org.jetbrains:annotations:22.0.0'
 }
 
 group = 'me.omegaweapondev'
-version = '2.2.5'
+version = '2.2.6'
 
-sourceCompatibility = 17
-targetCompatibility = 17
+sourceCompatibility = JavaVersion.VERSION_17
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
