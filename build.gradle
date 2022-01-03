@@ -26,8 +26,11 @@ repositories {
 
 shadowJar {
     archiveClassifier.set('')
-    relocate 'org.bstats', 'me.omegaweapondev.libs.bstats'
     relocate 'me.ou', 'me.omegaweapondev.libs.ou'
+    relocate 'org.bstats', 'me.omegaweapondev.libs.bstats'
+    relocate 'net.kyori', 'me.omegaweapondev.libs.adventure'
+    relocate 'com.tchristofferson', 'me.omegaweapondev.libs.configupdater'
+    relocate 'dev.dbassett', 'me.omegaweapondev.libs.skullcreator'
 }
 
 dependencies {
@@ -39,9 +42,10 @@ dependencies {
 }
 
 group = 'me.omegaweapondev'
-version = '2.2.6'
+version = '2.2.7'
 
-sourceCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = 11
+targetCompatibility = 11
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
