@@ -1,7 +1,17 @@
 plugins {
     id 'java'
+    id 'java-library'
     id 'maven-publish'
     id 'com.github.johnrengelman.shadow' version '7.1.1'
+}
+
+group = 'me.omegaweapondev'
+version = '2.2.8'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
 }
 
 repositories {
@@ -41,11 +51,17 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:22.0.0'
 }
 
-group = 'me.omegaweapondev'
-version = '2.2.7'
-
-sourceCompatibility = 11
-targetCompatibility = 11
+tasks.processResources {
+    filesMatching("plugin.yml") {
+        expand(
+                "name": project.name,
+                "version": project.version,
+                "mainClass": project.group + ".omegawarps.OmegaWarps",
+                "apiVersion": 1.13,
+                "author": 'OmegaWeaponDev'
+        )
+    }
+}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'

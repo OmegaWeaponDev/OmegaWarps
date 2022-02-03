@@ -87,6 +87,10 @@ public class Warp extends GlobalCommand implements TabCompleter {
         return;
       }
 
+      if(warpDelay(player, warpHandler)) {
+        return;
+      }
+
       warpHandler.beforeWarpEffects();
       warpHandler.postWarpEffects();
       return;
@@ -98,6 +102,10 @@ public class Warp extends GlobalCommand implements TabCompleter {
     }
 
     if(isWorldWarpDenied(warpName, player)) {
+      return;
+    }
+
+    if(warpDelay(player, warpHandler)) {
       return;
     }
 
@@ -163,6 +171,20 @@ public class Warp extends GlobalCommand implements TabCompleter {
 
     Utilities.message(player, messageHandler.string("Cross_World_Deny", "#ff4a4aSorry, you can not do that from this world!"));
     return true;
+  }
+
+  private boolean warpDelay(@NotNull Player player, @NotNull Warps warpHandler) {
+    if(plugin.getSettingsHandler().getConfigFile().getConfig().getBoolean("Warp_Delay")) {
+      if(!Utilities.checkPermissions(player, true, "omegawarps.delay.bypass", "omegawarps.admin")) {
+        Bukkit.getScheduler().runTaskLater(plugin, () -> {
+          warpHandler.beforeWarpEffects();
+          warpHandler.postWarpEffects();
+        }, 20L * plugin.getSettingsHandler().getConfigFile().getConfig().getInt("Warp_Delay.Delay"));
+        return true;
+      }
+      return false;
+    }
+    return false;
   }
 
   @Override

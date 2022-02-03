@@ -33,6 +33,13 @@ Sound_Effects:
 # Use the permission `omegawarps.warps.worldbypass` or `omegwarps.admin` to bypass this setting
 Cross_World_Deny: false
 
+# Once a player uses the warp command, there will be a delay before they actually get teleported to the warp.
+# The delay is in seconds
+# Use the permission `omegawarps.delay.bypass` if you want the player to be exempt from the delay
+Warp_Delay:
+  Enabled: false
+  Delay: 10
+
 # If permissions should be per warp permissions or a single permission for all warps.
 # If true, use the permissions `omegawarps.warp.<warpname>` OR `omegawarps.warp.*` for all the warps
 # If false, use permission `omegawarps.warps`
@@ -43,4 +50,4 @@ Per_Warp_Permissions: true
 Update_Notify: true
 
 # DO NOT EDIT THIS!
-Config_Version: 1.1
+Config_Version: 1.2

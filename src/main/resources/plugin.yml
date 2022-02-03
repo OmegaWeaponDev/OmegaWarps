@@ -1,10 +1,9 @@
-name: OmegaWarps
-version: 2.2.6
-api-version: 1.13
+name: {name}
+version: {version}
+api-version: {apiVersion}
 description: A modern warps plugins
-main: me.omegaweapondev.omegawarps.OmegaWarps
-
-author: OmegaWeaponDev
+main: {mainClass}
+author: {author}
 
 softdepend:
   - Vault
@@ -50,6 +49,7 @@ permissions:
       - omegawarps.clearwarps
       - omegawarps.debug
       - omegawarps.warps.worldbypass
+      - omegawarps.delay.bypass
   omegawarps.reload:
     default: false
     description: Grants access to the reload command
@@ -86,3 +86,6 @@ permissions:
   omegawarps.warps.worldbypass:
     default: false
     description: Allows the user to bypass the cross world warp block
+  omegawarps.delay.bypass:
+    default: false
+    description: Allows the user to bypass the warp delay
