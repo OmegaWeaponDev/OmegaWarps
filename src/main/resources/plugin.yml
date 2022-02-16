@@ -1,9 +1,9 @@
-name: {name}
-version: {version}
-api-version: {apiVersion}
+name: ${name}
+version: ${version}
+api-version: ${apiVersion}
 description: A modern warps plugins
-main: {mainClass}
-author: {author}
+main: ${mainClass}
+author: ${author}
 
 softdepend:
   - Vault
