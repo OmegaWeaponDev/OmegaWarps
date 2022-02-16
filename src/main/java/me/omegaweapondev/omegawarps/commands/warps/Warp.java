@@ -11,20 +11,23 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Warp extends GlobalCommand implements TabCompleter {
   private final OmegaWarps plugin;
   private final MessageHandler messageHandler;
+  private final FileConfiguration configFile;
+  private final Map<UUID, BukkitTask> playerWarpMap = new HashMap<>();
   
   public Warp(final OmegaWarps plugin) {
     this.plugin = plugin;
     messageHandler = new MessageHandler(plugin, plugin.getSettingsHandler().getMessagesFile().getConfig());
+    configFile = plugin.getSettingsHandler().getConfigFile().getConfig();
   }
 
   @Override
@@ -87,8 +90,24 @@ public class Warp extends GlobalCommand implements TabCompleter {
         return;
       }
 
-      if(warpDelay(player, warpHandler)) {
-        return;
+      if(configFile.getBoolean("Warp_Delay.Enabled")) {
+        if(!Utilities.checkPermissions(player, true, "omegawarps.delay.bypass", "omegawarps.admin")) {
+          playerWarpMap.put(player.getUniqueId(), Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+            Utilities.message(
+              player,
+              messageHandler.string(
+                "Warp_Delay_Started",
+                "#14abc9Please standby for %warp_delay% seconds then you will be warped."
+              ).replace(
+                "%warp_delay%",
+                String.valueOf(configFile.getInt("Warp_Delay.Delay"))
+              )
+            );
+            warpHandler.beforeWarpEffects();
+            warpHandler.postWarpEffects();
+          }, 20L * configFile.getInt("Warp_Delay.Delay")));
+          return;
+        }
       }
 
       warpHandler.beforeWarpEffects();
@@ -102,10 +121,6 @@ public class Warp extends GlobalCommand implements TabCompleter {
     }
 
     if(isWorldWarpDenied(warpName, player)) {
-      return;
-    }
-
-    if(warpDelay(player, warpHandler)) {
       return;
     }
 
@@ -173,20 +188,6 @@ public class Warp extends GlobalCommand implements TabCompleter {
     return true;
   }
 
-  private boolean warpDelay(@NotNull Player player, @NotNull Warps warpHandler) {
-    if(plugin.getSettingsHandler().getConfigFile().getConfig().getBoolean("Warp_Delay")) {
-      if(!Utilities.checkPermissions(player, true, "omegawarps.delay.bypass", "omegawarps.admin")) {
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-          warpHandler.beforeWarpEffects();
-          warpHandler.postWarpEffects();
-        }, 20L * plugin.getSettingsHandler().getConfigFile().getConfig().getInt("Warp_Delay.Delay"));
-        return true;
-      }
-      return false;
-    }
-    return false;
-  }
-
   @Override
   public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, String[] strings) {
     if(strings.length == 2) {
@@ -199,5 +200,9 @@ public class Warp extends GlobalCommand implements TabCompleter {
     }
 
     return Collections.emptyList();
+  }
+
+  public Map<UUID, BukkitTask> getPlayerWarpMap() {
+    return playerWarpMap;
   }
 }

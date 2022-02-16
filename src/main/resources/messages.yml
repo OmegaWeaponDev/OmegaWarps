@@ -33,6 +33,12 @@ Clear_Warps_Message: "#ff4a4aYou have deleted all the warps!"
 # Set the message that players get if a warp already exists.
 Warp_Already_Exists: "#ff4a4aSorry, but that warp already exists."
 
+# Set the message that players get when the warp delay is started.
+Warp_Delay_Started: "#14abc9Please standby for %warp_delay% seconds then you will be warped."
+
+# Set the message that players get when they interrupt the warp delay
+Warp_Delay_Interrupted: "#ffa4aYou have cancelled the warp!"
+
 # Set the message players get when they try using a warp that does not exist.
 Invalid_Warp_Name: "#ff4a4aSorry, that warp does not exist."
 

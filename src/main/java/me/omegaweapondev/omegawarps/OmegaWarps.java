@@ -47,7 +47,9 @@ public class OmegaWarps extends JavaPlugin {
   
   @Override
   public void onDisable() {
-    super.onDisable();
+    Warp warpCommand = new Warp(plugin);
+    warpCommand.getPlayerWarpMap().clear();
+    Bukkit.getScheduler().cancelTasks(plugin);
   }
   
   public void onReload() {

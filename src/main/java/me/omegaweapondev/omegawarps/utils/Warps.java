@@ -1,6 +1,7 @@
 package me.omegaweapondev.omegawarps.utils;
 
 import me.omegaweapondev.omegawarps.OmegaWarps;
+import me.omegaweapondev.omegawarps.commands.warps.Warp;
 import me.ou.library.Utilities;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -152,7 +153,6 @@ public class Warps {
   }
 
   public void postWarpEffects() {
-
     if(!warpsFile.isSet(warpName)) {
       Utilities.message(player, messageHandler.string("Invalid_Warp_Name", "&cSorry, that warp does not exist."));
       return;
@@ -168,5 +168,8 @@ public class Warps {
         player.playSound(player.getLocation(), Sound.valueOf(plugin.getSettingsHandler().getConfigFile().getConfig().getString("Sound_Effects.After_Warp_Sound")), 1, 1);
       }
     }.runTaskLater(plugin, 10);
+
+    Warp warpCommand = new Warp(plugin);
+    warpCommand.getPlayerWarpMap().remove(player.getUniqueId());
   }
 }
