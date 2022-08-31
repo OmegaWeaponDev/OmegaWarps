@@ -73,13 +73,9 @@ public class PlayerListener implements Listener {
   public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
     Player player = playerMoveEvent.getPlayer();
 
-    Utilities.message(player, "HashMAP Identity EventHandler: " + System.identityHashCode(warpCommand.getPlayerWarpMap()));
-
     if(warpCommand.getPlayerWarpMap().containsKey(player.getUniqueId())) {
-      Utilities.message(player, "YOU ARE IN THE MAP");
       int warpTask = warpCommand.getPlayerWarpMap().get(player.getUniqueId()).getTaskId();
       Bukkit.getScheduler().cancelTask(warpTask);
-      Utilities.message(player, "THE TASK HAS BEEN CANCELLED");
       warpCommand.getPlayerWarpMap().remove(player.getUniqueId());
       Utilities.message(player, messageHandler.string("Warp_Delay_Interrupted", "#ffa4aYou have cancelled the warp!"));
     }
