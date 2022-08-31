@@ -92,20 +92,25 @@ public class Warp extends GlobalCommand implements TabCompleter {
 
       if(configFile.getBoolean("Warp_Delay.Enabled")) {
         if(!Utilities.checkPermissions(player, true, "omegawarps.delay.bypass", "omegawarps.admin")) {
+          Utilities.message(
+            player,
+            messageHandler.string(
+              "Warp_Delay_Started",
+              "#14abc9Please standby for %warp_delay% seconds then you will be warped."
+            ).replace(
+              "%warp_delay%",
+              String.valueOf(configFile.getInt("Warp_Delay.Delay"))
+            )
+          );
+          Utilities.message(player, "HashMAP Identity WarpCommand: " + System.identityHashCode(playerWarpMap));
+
+          Utilities.message(player, "TASK ADDED TO MAP");
           playerWarpMap.put(player.getUniqueId(), Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
-            Utilities.message(
-              player,
-              messageHandler.string(
-                "Warp_Delay_Started",
-                "#14abc9Please standby for %warp_delay% seconds then you will be warped."
-              ).replace(
-                "%warp_delay%",
-                String.valueOf(configFile.getInt("Warp_Delay.Delay"))
-              )
-            );
             warpHandler.beforeWarpEffects();
             warpHandler.postWarpEffects();
           }, 20L * configFile.getInt("Warp_Delay.Delay")));
+
+          Utilities.message(player, "IS THE TASK IN THE MAP 1: " + playerWarpMap.containsKey(player.getUniqueId()));
           return;
         }
       }

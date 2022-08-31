@@ -5,6 +5,7 @@ import me.omegaweapondev.omegawarps.commands.warps.Warp;
 import me.omegaweapondev.omegawarps.utils.MessageHandler;
 import me.ou.library.SpigotUpdater;
 import me.ou.library.Utilities;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -72,9 +73,13 @@ public class PlayerListener implements Listener {
   public void onPlayerMove(PlayerMoveEvent playerMoveEvent) {
     Player player = playerMoveEvent.getPlayer();
 
+    Utilities.message(player, "HashMAP Identity EventHandler: " + System.identityHashCode(warpCommand.getPlayerWarpMap()));
+
     if(warpCommand.getPlayerWarpMap().containsKey(player.getUniqueId())) {
-      BukkitTask warpTask = warpCommand.getPlayerWarpMap().get(player.getUniqueId());
-      warpTask.cancel();
+      Utilities.message(player, "YOU ARE IN THE MAP");
+      int warpTask = warpCommand.getPlayerWarpMap().get(player.getUniqueId()).getTaskId();
+      Bukkit.getScheduler().cancelTask(warpTask);
+      Utilities.message(player, "THE TASK HAS BEEN CANCELLED");
       warpCommand.getPlayerWarpMap().remove(player.getUniqueId());
       Utilities.message(player, messageHandler.string("Warp_Delay_Interrupted", "#ffa4aYou have cancelled the warp!"));
     }

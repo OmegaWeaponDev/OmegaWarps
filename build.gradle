@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.omegaweapondev'
-version = '2.2.8'
+version = '2.2.9'
 
 java {
     toolchain {
@@ -32,6 +32,7 @@ repositories {
     maven {
         url = uri('https://repo.maven.apache.org/maven2/')
     }
+    mavenCentral()
 }
 
 shadowJar {
@@ -45,10 +46,10 @@ shadowJar {
 
 dependencies {
     implementation 'me.ou:library:1.6.3'
-    implementation 'org.bstats:bstats-bukkit:2.2.1'
-    compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
+    implementation 'org.bstats:bstats-bukkit:3.0.0'
+    compileOnly 'org.spigotmc:spigot-api:1.19.2-R0.1-SNAPSHOT'
     compileOnly 'com.github.MilkBowl:VaultAPI:1.7'
-    compileOnly 'org.jetbrains:annotations:22.0.0'
+    compileOnly 'org.jetbrains:annotations:23.0.0'
 }
 
 tasks.processResources {

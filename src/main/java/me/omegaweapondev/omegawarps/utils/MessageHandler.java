@@ -44,7 +44,7 @@ public class MessageHandler {
   public String getPrefix() {
     if(messagesFile.getString("Prefix") == null) {
       getErrorMessage("Prefix");
-      return "#808080&l[#560900DeathWarden#808080&l]" + " ";
+      return "#808080&l[#560900OmegaWarps#808080&l]" + " ";
     }
     return messagesFile.getString("Prefix") + " ";
   }
