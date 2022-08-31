@@ -102,15 +102,12 @@ public class Warp extends GlobalCommand implements TabCompleter {
               String.valueOf(configFile.getInt("Warp_Delay.Delay"))
             )
           );
-          Utilities.message(player, "HashMAP Identity WarpCommand: " + System.identityHashCode(playerWarpMap));
 
-          Utilities.message(player, "TASK ADDED TO MAP");
           playerWarpMap.put(player.getUniqueId(), Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
             warpHandler.beforeWarpEffects();
             warpHandler.postWarpEffects();
           }, 20L * configFile.getInt("Warp_Delay.Delay")));
 
-          Utilities.message(player, "IS THE TASK IN THE MAP 1: " + playerWarpMap.containsKey(player.getUniqueId()));
           return;
         }
       }
