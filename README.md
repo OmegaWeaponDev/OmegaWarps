@@ -52,7 +52,9 @@ I have implemented an Auto Config Updater that will automatically update all the
 If at any stage you come across a sneaky bug that I was unable to locate during testing please do not hesitate to get in contact with me so I am able to squash it quickly for you. When you are finding yourself in need to contact me about any of my plugins, if it is relating to a bug, please try and provide as much detail as possible, including server version, plugin version and the steps taken to get the bug. This allows me to focus on the bug a lot quicker and allows me to get an update released sooner in order to resolve the bug.
 
 ### **Discord**
-![Discord Header](https://i.imgur.com/yQIZDR6.png)
+ <a href="https://discord.gg/9nZTPcp">
+    <img src="https://i.imgur.com/yQIZDR6.png" alt="Join my Discord">
+  </a>
 
 I have spent some time setting up a discord server that you are welcome to join at any time. Here you are able to seek help, have a chat, be informed of any updates or announcements and just be apart of a great community. You can join the community or invite your friends to the discord community by using this link: https://discord.gg/9nZTPcp
 
